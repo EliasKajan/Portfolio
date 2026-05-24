@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eliáš Kajan — Mixing Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #07070f;
+    --bg2: #0d0d1a;
+    --bg3: #12121f;
+    --text: #f0eeff;
+    --muted: #7a7a99;
+    --p1: #a855f7;
+    --p2: #ec4899;
+    --p3: #06b6d4;
+    --grad: linear-gradient(135deg, #a855f7, #ec4899, #06b6d4);
+    --grad2: linear-gradient(135deg, #a855f740, #ec489940);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 4rem;
+    background: rgba(7,7,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(168,85,247,0.1);
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.2rem;
+    letter-spacing: 0.02em;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-decoration: none;
+  }
+
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+  }
+  .orb1 { width: 600px; height: 600px; background: #a855f7; top: -200px; right: -100px; animation: drift1 12s ease-in-out infinite alternate; }
+  .orb2 { width: 400px; height: 400px; background: #ec4899; bottom: -100px; left: 10%; animation: drift2 15s ease-in-out infinite alternate; }
+  .orb3 { width: 300px; height: 300px; background: #06b6d4; top: 30%; left: 60%; animation: drift1 18s ease-in-out infinite alternate-reverse; }
+
+  @keyframes drift1 { from { transform: translateY(0) scale(1); } to { transform: translateY(-40px) scale(1.1); } }
+  @keyframes drift2 { from { transform: translateX(0) scale(1); } to { transform: translateX(30px) scale(0.95); } }
+
+  /* Waveform decoration */
+  .waveform {
+    position: absolute;
+    bottom: 2rem;
+    left: 0; right: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 3px;
+    height: 60px;
+    opacity: 0.15;
+    z-index: 0;
+  }
+  .waveform span {
+    display: block;
+    width: 3px;
+    background: var(--grad);
+    border-radius: 2px;
+    animation: wave 1.4s ease-in-out infinite alternate;
+  }
+
+  @keyframes wave {
+    from { height: 6px; }
+    to { height: var(--h); }
+  }
+
+  .hero-content { position: relative; z-index: 1; max-width: 900px; }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--p1);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 1px;
+    background: var(--p1);
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+
+  .gradient-text {
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-desc {
+    font-size: 1.15rem;
+    color: var(--muted);
+    max-width: 560px;
+    margin-bottom: 2.5rem;
+    line-height: 1.8;
+  }
+
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .btn-primary {
+    display: inline-block;
+    padding: 0.9rem 2rem;
+    background: var(--grad);
+    color: #fff;
+    text-decoration: none;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    border-radius: 50px;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.9; transform: translateY(-2px); }
+
+  .btn-outline {
+    display: inline-block;
+    padding: 0.9rem 2rem;
+    border: 1px solid rgba(168,85,247,0.4);
+    color: var(--text);
+    text-decoration: none;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    border-radius: 50px;
+    transition: border-color 0.2s, transform 0.2s, background 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--p1); background: rgba(168,85,247,0.08); transform: translateY(-2px); }
+
+  /* SECTIONS */
+  section { padding: 7rem 4rem; }
+
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--p1);
+    margin-bottom: 1rem;
+  }
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--p1);
+  }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 2.5rem;
+  }
+
+  /* ABOUT */
+  #about { background: var(--bg2); }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+    max-width: 1100px;
+  }
+
+  .about-visual {
+    position: relative;
+    aspect-ratio: 1;
+    max-width: 420px;
+  }
+
+  .about-visual-bg {
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    background: var(--grad2);
+    border: 1px solid rgba(168,85,247,0.2);
+  }
+
+  .about-visual-inner {
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .big-letter {
+    font-family: 'Syne', sans-serif;
+    font-size: 10rem;
+    font-weight: 800;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    opacity: 0.8;
+  }
+
+  .about-text p { color: var(--muted); margin-bottom: 1.2rem; line-height: 1.9; }
+  .about-text p:last-child { margin-bottom: 0; }
+
+  .stats-row {
+    display: flex;
+    gap: 2.5rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .stat { display: flex; flex-direction: column; gap: 0.2rem; }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .stat-label { font-size: 0.8rem; color: var(--muted); letter-spacing: 0.05em; }
+
+  /* PORTFOLIO */
+  #portfolio { background: var(--bg); }
+
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    max-width: 1100px;
+  }
+
+  .project-card {
+    background: var(--bg3);
+    border: 1px solid rgba(168,85,247,0.1);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s;
+    cursor: pointer;
+  }
+  .project-card:hover { transform: translateY(-6px); border-color: rgba(168,85,247,0.4); }
+
+  .project-thumb {
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .thumb-grad1 { background: linear-gradient(135deg, #1a0a2e, #2d0a4e); }
+  .thumb-grad2 { background: linear-gradient(135deg, #0a1a2e, #0a2d3e); }
+  .thumb-grad3 { background: linear-gradient(135deg, #2e0a1a, #4e0a2d); }
+  .thumb-grad4 { background: linear-gradient(135deg, #0a2e1a, #0a4e2d); }
+  .thumb-grad5 { background: linear-gradient(135deg, #2e2a0a, #4e400a); }
+  .thumb-grad6 { background: linear-gradient(135deg, #1a1a2e, #2a2a4e); }
+
+  .thumb-waves {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 1rem;
+  }
+  .thumb-waves span {
+    display: block;
+    width: 4px;
+    border-radius: 2px;
+    opacity: 0.6;
+  }
+
+  .project-info { padding: 1.2rem 1.4rem; }
+  .project-genre {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--p1);
+    margin-bottom: 0.4rem;
+  }
+  .project-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+  .project-desc { font-size: 0.85rem; color: var(--muted); }
+
+  .project-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.8rem;
+  }
+  .tag {
+    font-size: 0.72rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 100px;
+    background: rgba(168,85,247,0.1);
+    color: var(--p1);
+    border: 1px solid rgba(168,85,247,0.2);
+  }
+
+  /* TESTIMONIALS */
+  #testimonials { background: var(--bg2); }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+    max-width: 1100px;
+  }
+
+  .testimonial-card {
+    background: var(--bg3);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 20px;
+    padding: 2rem;
+    position: relative;
+    transition: border-color 0.3s;
+  }
+  .testimonial-card:hover { border-color: rgba(168,85,247,0.25); }
+
+  .quote-mark {
+    font-family: 'Syne', sans-serif;
+    font-size: 5rem;
+    line-height: 0.7;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .testimonial-text {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.9;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .author-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--grad);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .author-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+  .author-role { font-size: 0.8rem; color: var(--muted); }
+
+  .stars {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 1rem;
+  }
+  .star { color: #f59e0b; font-size: 0.9rem; }
+
+  /* CONTACT */
+  #contact { background: var(--bg); }
+
+  .contact-wrap {
+    max-width: 700px;
+  }
+
+  .contact-intro {
+    color: var(--muted);
+    margin-bottom: 3rem;
+    font-size: 1.05rem;
+    max-width: 540px;
+    line-height: 1.9;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+
+  label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  input, textarea, select {
+    background: var(--bg3);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    border-color: rgba(168,85,247,0.5);
+    box-shadow: 0 0 0 3px rgba(168,85,247,0.08);
+  }
+
+  textarea { min-height: 140px; resize: vertical; }
+
+  .btn-send {
+    align-self: flex-start;
+    padding: 1rem 2.5rem;
+    background: var(--grad);
+    color: #fff;
+    border: none;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .btn-send:hover { opacity: 0.9; transform: translateY(-2px); }
+
+  .contact-alts {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .contact-alt {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+  .contact-alt:hover { color: var(--p1); }
+
+  .contact-alt-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(168,85,247,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--bg2);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  footer .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.2rem; }
+    section { padding: 5rem 1.5rem; }
+    #hero { padding: 7rem 1.5rem 3rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .form-row { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+    .stats-row { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">Eliáš Kajan</a>
+  <ul class="nav-links">
+    <li><a href="#about">O mne</a></li>
+    <li><a href="#portfolio">Portfólio</a></li>
+    <li><a href="#testimonials">Referencie</a></li>
+    <li><a href="#contact">Kontakt</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+  </div>
+  <div class="waveform" id="waveform"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Mixing Engineer · Slovakia</div>
+    <h1>
+      Zvuk, ktorý<br>
+      <span class="gradient-text">cítiš.</span>
+    </h1>
+    <p class="hero-desc">
+      Pomáham kapelám a umelcom dostať ich hudbu na profesionálnu úroveň — mix, ktorý znie tak, ako ste ho cítili pri skladaní.
+    </p>
+    <div class="hero-ctas">
+      <a href="#portfolio" class="btn-primary">Pozrieť práce</a>
+      <a href="#contact" class="btn-outline">Kontaktovať</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid reveal">
+    <div class="about-visual">
+      <div class="about-visual-bg"></div>
+      <div class="about-visual-inner">
+        <span class="big-letter">EK</span>
+      </div>
+    </div>
+    <div class="about-text">
+      <div class="section-label">O mne</div>
+      <h2>Milujem zvuk v každej jeho podobe.</h2>
+      <p>Som mixing engineer z Nitry. Pracujem v Pro Tools a špecializujem sa na nahrávanie a mix slovenských kapiel — od post-produkcie štúdiových nahrávok až po live sound.</p>
+      <p>Každý projekt beriem ako výzvu dostať z hudby to najlepšie. Nezáleží, či je to rock, elektronika alebo akustika — mix musí mať charakter.</p>
+      <p>Momentálne otvorený pre nové projekty online aj lokálne.</p>
+      <div class="stats-row">
+        <div class="stat">
+          <span class="stat-num">Pro</span>
+          <span class="stat-label">Tools workflow</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">SK</span>
+          <span class="stat-label">Miestne kapely</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">∞</span>
+          <span class="stat-label">Pasión k zvuku</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="section-label">Portfólio</div>
+  <h2>Vybrané <span class="gradient-text">projekty.</span></h2>
+  <div class="portfolio-grid reveal">
+
+    <div class="project-card">
+      <div class="project-thumb thumb-grad1">
+        <div class="thumb-waves" id="tw1"></div>
+      </div>
+      <div class="project-info">
+        <div class="project-genre">Rock / Indie</div>
+        <div class="project-title">Demo EP — Kapela A</div>
+        <div class="project-desc">Full mix 4-skladbového EP. Drums, bass, 2× guitar, vox.</div>
+        <div class="project-tags">
+          <span class="tag">Pro Tools</span>
+          <span class="tag">Mixing</span>
+          <span class="tag">Mastering</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-thumb thumb-grad2">
+        <div class="thumb-waves" id="tw2"></div>
+      </div>
+      <div class="project-info">
+        <div class="project-genre">Electronic / Ambient</div>
+        <div class="project-title">Singl — Projekt B</div>
+        <div class="project-desc">Atmosferický mix so spatial audio prvkami.</div>
+        <div class="project-tags">
+          <span class="tag">Stem Mix</span>
+          <span class="tag">Automation</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-thumb thumb-grad3">
+        <div class="thumb-waves" id="tw3"></div>
+      </div>
+      <div class="project-info">
+        <div class="project-genre">Folk / Akustika</div>
+        <div class="project-title">Album — Kapela C</div>
+        <div class="project-desc">10-skladbový album, živé nahrávky s orchester.</div>
+        <div class="project-tags">
+          <span class="tag">Mixing</span>
+          <span class="tag">Live recording</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-thumb thumb-grad4">
+        <div class="thumb-waves" id="tw4"></div>
+      </div>
+      <div class="project-info">
+        <div class="project-genre">Hip-hop / Trap</div>
+        <div class="project-title">Single — Umelec D</div>
+        <div class="project-desc">Vocal chain, mix a mastering pre streaming platformy.</div>
+        <div class="project-tags">
+          <span class="tag">Vocal Mix</span>
+          <span class="tag">Mastering</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-thumb thumb-grad5">
+        <div class="thumb-waves" id="tw5"></div>
+      </div>
+      <div class="project-info">
+        <div class="project-genre">Metal / Hardcore</div>
+        <div class="project-title">EP — Kapela E</div>
+        <div class="project-desc">Agresívny gitarový mix, drum replacement, parallel compression.</div>
+        <div class="project-tags">
+          <span class="tag">Heavy mix</span>
+          <span class="tag">Drum editing</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-thumb thumb-grad6">
+        <div class="thumb-waves" id="tw6"></div>
+      </div>
+      <div class="project-info">
+        <div class="project-genre">Pop / R&amp;B</div>
+        <div class="project-title">Single — Projekt F</div>
+        <div class="project-desc">Moderný pop mix, Dolby Atmos compatible stem delivery.</div>
+        <div class="project-tags">
+          <span class="tag">Modern Pop</span>
+          <span class="tag">Atmos ready</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-label">Referencie</div>
+  <h2>Čo hovoria <span class="gradient-text">klienti.</span></h2>
+  <div class="testimonials-grid reveal">
+
+    <div class="testimonial-card">
+      <span class="quote-mark">"</span>
+      <div class="stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <p class="testimonial-text">Eliáš pochopil náš zvuk hneď od prvého posluchu. Mix EP znel presne tak, ako sme chceli — energicky, čisto, s charakterom.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">JN</div>
+        <div>
+          <div class="author-name">Jakub Novák</div>
+          <div class="author-role">Gitarista, Kapela A</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card">
+      <span class="quote-mark">"</span>
+      <div class="stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <p class="testimonial-text">Spolupráca bola profesionálna a rýchla. Revision boli vždy zapracované presne podľa našich požiadaviek. Odporúčam každej kapele.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">MK</div>
+        <div>
+          <div class="author-name">Mária Kollárová</div>
+          <div class="author-role">Speváčka, Projekt B</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card">
+      <span class="quote-mark">"</span>
+      <div class="stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <p class="testimonial-text">Výsledok predčil všetky očakávania. Nahrávky z live koncertu dostali nový život. Určite budeme pokračovať na ďalšom albume.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">TP</div>
+        <div>
+          <div class="author-name">Tomáš Polák</div>
+          <div class="author-role">Bubeník, Kapela C</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-wrap reveal">
+    <div class="section-label">Kontakt</div>
+    <h2>Začnime <span class="gradient-text">pracovať.</span></h2>
+    <p class="contact-intro">Máš projekt, kapelu, alebo len otázku? Napíš mi. Odpoviem zvyčajne do 24 hodín.</p>
+
+    <form class="contact-form" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Meno</label>
+          <input type="text" id="name" placeholder="Tvoje meno" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="tvoj@email.com" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="service">Čo hľadáš?</label>
+        <select id="service">
+          <option value="">— Vyber službu —</option>
+          <option>Mixing (online)</option>
+          <option>Mixing + Mastering</option>
+          <option>Nahrávanie kapely</option>
+          <option>Live sound</option>
+          <option>Iné / Konzultácia</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="message">Správa</label>
+        <textarea id="message" placeholder="Povedz mi o projekte — žáner, počet skladieb, deadline..."></textarea>
+      </div>
+      <button type="submit" class="btn-send">Odoslať správu →</button>
+    </form>
+
+    <div class="contact-alts">
+      <a href="mailto:elias@kajan.sk" class="contact-alt">
+        <span class="contact-alt-icon">✉</span>
+        elias@kajan.sk
+      </a>
+      <a href="https://instagram.com" class="contact-alt" target="_blank">
+        <span class="contact-alt-icon">◎</span>
+        Instagram
+      </a>
+      <a href="https://soundcloud.com" class="contact-alt" target="_blank">
+        <span class="contact-alt-icon">♫</span>
+        SoundCloud
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="logo">Eliáš Kajan</span>
+  <span>© 2025 · Mixing Engineer · Slovakia</span>
+  <span>Made with 🎚</span>
+</footer>
+
+<script>
+  // Waveform hero
+  const wf = document.getElementById('waveform');
+  const heights = [8,14,22,35,50,42,28,18,12,22,38,55,45,30,16,10,20,40,58,48,32,18,14,24,44,60,52,36,20,12,16,32,50,62,54,38,22,14,18,36,56,64,50,34,20,12];
+  heights.forEach((h, i) => {
+    const s = document.createElement('span');
+    s.style.cssText = `--h:${h}px; animation-delay:${(i * 0.06).toFixed(2)}s; animation-duration:${(1.2 + Math.random()*0.6).toFixed(2)}s`;
+    wf.appendChild(s);
+  });
+
+  // Thumbnail waveforms
+  for (let t = 1; t <= 6; t++) {
+    const el = document.getElementById('tw' + t);
+    if (!el) continue;
+    const count = 28;
+    for (let i = 0; i < count; i++) {
+      const b = document.createElement('span');
+      const h = 8 + Math.random() * 100;
+      b.style.cssText = `height:${h}px; background: linear-gradient(to top, #a855f7, #ec4899); border-radius: 2px;`;
+      el.appendChild(b);
+    }
+  }
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.btn-send');
+    btn.textContent = 'Odoslané ✓';
+    btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+    setTimeout(() => {
+      btn.textContent = 'Odoslať správu →';
+      btn.style.background = '';
+      e.target.reset();
+    }, 3000);
+  }
+</script>
+</body>
+</html>
