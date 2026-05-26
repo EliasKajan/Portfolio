@@ -4,612 +4,565 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Eliáš Kajan — Mixing Engineer</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg: #07070f;
-    --bg2: #0d0d1a;
-    --bg3: #12121f;
-    --text: #f0eeff;
-    --muted: #7a7a99;
-    --p1: #a855f7;
-    --p2: #ec4899;
-    --p3: #06b6d4;
-    --grad: linear-gradient(135deg, #a855f7, #ec4899, #06b6d4);
-    --grad2: linear-gradient(135deg, #a855f740, #ec489940);
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 17px;
-    line-height: 1.7;
-    overflow-x: hidden;
-  }
-
-  /* NAV */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.2rem 4rem;
-    background: rgba(7,7,15,0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(168,85,247,0.1);
-  }
-
-  .nav-logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 1.2rem;
-    letter-spacing: 0.02em;
-    background: var(--grad);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-decoration: none;
-  }
-
-  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-  .nav-links a {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--text); }
-
-  /* HERO */
-  #hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 8rem 4rem 4rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-  }
-
-  .orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.35;
-  }
-  .orb1 { width: 600px; height: 600px; background: #a855f7; top: -200px; right: -100px; animation: drift1 12s ease-in-out infinite alternate; }
-  .orb2 { width: 400px; height: 400px; background: #ec4899; bottom: -100px; left: 10%; animation: drift2 15s ease-in-out infinite alternate; }
-  .orb3 { width: 300px; height: 300px; background: #06b6d4; top: 30%; left: 60%; animation: drift1 18s ease-in-out infinite alternate-reverse; }
-
-  @keyframes drift1 { from { transform: translateY(0) scale(1); } to { transform: translateY(-40px) scale(1.1); } }
-  @keyframes drift2 { from { transform: translateX(0) scale(1); } to { transform: translateX(30px) scale(0.95); } }
-
-  /* Waveform decoration */
-  .waveform {
-    position: absolute;
-    bottom: 2rem;
-    left: 0; right: 0;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    gap: 3px;
-    height: 60px;
-    opacity: 0.15;
-    z-index: 0;
-  }
-  .waveform span {
-    display: block;
-    width: 3px;
-    background: var(--grad);
-    border-radius: 2px;
-    animation: wave 1.4s ease-in-out infinite alternate;
-  }
-
-  @keyframes wave {
-    from { height: 6px; }
-    to { height: var(--h); }
-  }
-
-  .hero-content { position: relative; z-index: 1; max-width: 900px; }
-
-  .hero-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.8rem;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--p1);
-    margin-bottom: 1.5rem;
-  }
-
-  .hero-eyebrow::before {
-    content: '';
-    display: block;
-    width: 30px;
-    height: 1px;
-    background: var(--p1);
-  }
-
-  h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(3.5rem, 8vw, 7rem);
-    font-weight: 800;
-    line-height: 1.0;
-    letter-spacing: -0.02em;
-    margin-bottom: 1.5rem;
-  }
-
-  .gradient-text {
-    background: var(--grad);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .hero-desc {
-    font-size: 1.15rem;
-    color: var(--muted);
-    max-width: 560px;
-    margin-bottom: 2.5rem;
-    line-height: 1.8;
-  }
-
-  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
-
-  .btn-primary {
-    display: inline-block;
-    padding: 0.9rem 2rem;
-    background: var(--grad);
-    color: #fff;
-    text-decoration: none;
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 0.9rem;
-    letter-spacing: 0.04em;
-    border-radius: 50px;
-    transition: opacity 0.2s, transform 0.2s;
-  }
-  .btn-primary:hover { opacity: 0.9; transform: translateY(-2px); }
-
-  .btn-outline {
-    display: inline-block;
-    padding: 0.9rem 2rem;
-    border: 1px solid rgba(168,85,247,0.4);
-    color: var(--text);
-    text-decoration: none;
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 0.9rem;
-    letter-spacing: 0.04em;
-    border-radius: 50px;
-    transition: border-color 0.2s, transform 0.2s, background 0.2s;
-  }
-  .btn-outline:hover { border-color: var(--p1); background: rgba(168,85,247,0.08); transform: translateY(-2px); }
-
-  /* SECTIONS */
-  section { padding: 7rem 4rem; }
-
-  .section-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--p1);
-    margin-bottom: 1rem;
-  }
-  .section-label::before {
-    content: '';
-    display: block;
-    width: 24px;
-    height: 1px;
-    background: var(--p1);
-  }
-
-  h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(2rem, 4vw, 3.2rem);
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin-bottom: 2.5rem;
-  }
-
-  /* ABOUT */
-  #about { background: var(--bg2); }
-
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5rem;
-    align-items: center;
-    max-width: 1100px;
-  }
-
-  .about-visual {
-    position: relative;
-    aspect-ratio: 1;
-    max-width: 420px;
-  }
-
-  .about-visual-bg {
-    position: absolute;
-    inset: 0;
-    border-radius: 24px;
-    background: var(--grad2);
-    border: 1px solid rgba(168,85,247,0.2);
-  }
-
-  .about-visual-inner {
-    position: absolute;
-    inset: 0;
-    border-radius: 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-  }
-
-  .big-letter {
-    font-family: 'Syne', sans-serif;
-    font-size: 10rem;
-    font-weight: 800;
-    background: var(--grad);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1;
-    opacity: 0.8;
-  }
-
-  .about-text p { color: var(--muted); margin-bottom: 1.2rem; line-height: 1.9; }
-  .about-text p:last-child { margin-bottom: 0; }
-
-  .stats-row {
-    display: flex;
-    gap: 2.5rem;
-    margin-top: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(255,255,255,0.06);
-  }
-
-  .stat { display: flex; flex-direction: column; gap: 0.2rem; }
-
-  .stat-num {
-    font-family: 'Syne', sans-serif;
-    font-size: 2rem;
-    font-weight: 800;
-    background: var(--grad);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .stat-label { font-size: 0.8rem; color: var(--muted); letter-spacing: 0.05em; }
-
-  /* PORTFOLIO */
-  #portfolio { background: var(--bg); }
-
-  .portfolio-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
-    max-width: 1100px;
-  }
-
-  .project-card {
-    background: var(--bg3);
-    border: 1px solid rgba(168,85,247,0.1);
-    border-radius: 20px;
-    overflow: hidden;
-    transition: transform 0.3s, border-color 0.3s;
-    cursor: pointer;
-  }
-  .project-card:hover { transform: translateY(-6px); border-color: rgba(168,85,247,0.4); }
-
-  .project-thumb {
-    height: 160px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .thumb-grad1 { background: linear-gradient(135deg, #1a0a2e, #2d0a4e); }
-  .thumb-grad2 { background: linear-gradient(135deg, #0a1a2e, #0a2d3e); }
-  .thumb-grad3 { background: linear-gradient(135deg, #2e0a1a, #4e0a2d); }
-  .thumb-grad4 { background: linear-gradient(135deg, #0a2e1a, #0a4e2d); }
-  .thumb-grad5 { background: linear-gradient(135deg, #2e2a0a, #4e400a); }
-  .thumb-grad6 { background: linear-gradient(135deg, #1a1a2e, #2a2a4e); }
-
-  .thumb-waves {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    padding: 1rem;
-  }
-  .thumb-waves span {
-    display: block;
-    width: 4px;
-    border-radius: 2px;
-    opacity: 0.6;
-  }
-
-  .project-info { padding: 1.2rem 1.4rem; }
-  .project-genre {
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--p1);
-    margin-bottom: 0.4rem;
-  }
-  .project-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 0.3rem;
-  }
-  .project-desc { font-size: 0.85rem; color: var(--muted); }
-
-  .project-tags {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-top: 0.8rem;
-  }
-  .tag {
-    font-size: 0.72rem;
-    padding: 0.25rem 0.7rem;
-    border-radius: 100px;
-    background: rgba(168,85,247,0.1);
-    color: var(--p1);
-    border: 1px solid rgba(168,85,247,0.2);
-  }
-
-  /* TESTIMONIALS */
-  #testimonials { background: var(--bg2); }
-
-  .testimonials-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 1.5rem;
-    max-width: 1100px;
-  }
-
-  .testimonial-card {
-    background: var(--bg3);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 20px;
-    padding: 2rem;
-    position: relative;
-    transition: border-color 0.3s;
-  }
-  .testimonial-card:hover { border-color: rgba(168,85,247,0.25); }
-
-  .quote-mark {
-    font-family: 'Syne', sans-serif;
-    font-size: 5rem;
-    line-height: 0.7;
-    background: var(--grad);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 1rem;
-    display: block;
-  }
-
-  .testimonial-text {
-    color: var(--muted);
-    font-size: 0.95rem;
-    line-height: 1.9;
-    margin-bottom: 1.5rem;
-    font-style: italic;
-  }
-
-  .testimonial-author {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-  }
-
-  .author-avatar {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background: var(--grad);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 0.9rem;
-    color: #fff;
-    flex-shrink: 0;
-  }
-
-  .author-name {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 700;
-  }
-  .author-role { font-size: 0.8rem; color: var(--muted); }
-
-  .stars {
-    display: flex;
-    gap: 2px;
-    margin-bottom: 1rem;
-  }
-  .star { color: #f59e0b; font-size: 0.9rem; }
-
-  /* CONTACT */
-  #contact { background: var(--bg); }
-
-  .contact-wrap {
-    max-width: 700px;
-  }
-
-  .contact-intro {
-    color: var(--muted);
-    margin-bottom: 3rem;
-    font-size: 1.05rem;
-    max-width: 540px;
-    line-height: 1.9;
-  }
-
-  .contact-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
-  }
-
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
-
-  .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
-
-  label {
-    font-size: 0.8rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  input, textarea, select {
-    background: var(--bg3);
-    border: 1px solid rgba(255,255,255,0.08);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
-    padding: 0.85rem 1rem;
-    border-radius: 12px;
-    outline: none;
-    transition: border-color 0.2s;
-    width: 100%;
-  }
-
-  input:focus, textarea:focus, select:focus {
-    border-color: rgba(168,85,247,0.5);
-    box-shadow: 0 0 0 3px rgba(168,85,247,0.08);
-  }
-
-  textarea { min-height: 140px; resize: vertical; }
-
-  .btn-send {
-    align-self: flex-start;
-    padding: 1rem 2.5rem;
-    background: var(--grad);
-    color: #fff;
-    border: none;
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 0.95rem;
-    letter-spacing: 0.05em;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: opacity 0.2s, transform 0.2s;
-  }
-  .btn-send:hover { opacity: 0.9; transform: translateY(-2px); }
-
-  .contact-alts {
-    display: flex;
-    gap: 2rem;
-    margin-top: 2.5rem;
-    flex-wrap: wrap;
-  }
-
-  .contact-alt {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: color 0.2s;
-  }
-  .contact-alt:hover { color: var(--p1); }
-
-  .contact-alt-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: 1px solid rgba(168,85,247,0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-  }
-
-  /* FOOTER */
-  footer {
-    background: var(--bg2);
-    border-top: 1px solid rgba(255,255,255,0.05);
-    padding: 2rem 4rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.85rem;
-    color: var(--muted);
-  }
-
-  footer .logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 1rem;
-    background: var(--grad);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  /* SCROLL REVEAL */
-  .reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* RESPONSIVE */
-  @media (max-width: 768px) {
-    nav { padding: 1rem 1.5rem; }
-    .nav-links { gap: 1.2rem; }
-    section { padding: 5rem 1.5rem; }
-    #hero { padding: 7rem 1.5rem 3rem; }
-    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
-    .form-row { grid-template-columns: 1fr; }
-    footer { flex-direction: column; gap: 1rem; text-align: center; }
-    .stats-row { gap: 1.5rem; }
-  }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:    #07070f;
+  --bg2:   #0c0c18;
+  --bg3:   #121220;
+  --bg4:   #181828;
+  --text:  #ede9ff;
+  --muted: #6a6888;
+  --dim:   #3a3858;
+  --p1:    #b06ef3;
+  --p2:    #f06090;
+  --p3:    #22d3ee;
+  --gold:  #f0a040;
+  --grad:  linear-gradient(135deg, #b06ef3, #f06090);
+  --grad3: linear-gradient(135deg, #b06ef3, #f06090, #22d3ee);
+  --cfb:   #22d3ee;
+  --cfa:   #b06ef3;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ─── NOISE OVERLAY ─── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.025;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.1rem 3.5rem;
+  background: rgba(7,7,15,0.8);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(176,110,243,0.08);
+}
+
+.nav-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800; font-size: 1.1rem;
+  background: var(--grad); -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; background-clip: text;
+  text-decoration: none; letter-spacing: 0.01em;
+}
+
+.nav-links { display: flex; gap: 2.2rem; list-style: none; }
+.nav-links a {
+  color: var(--muted); text-decoration: none;
+  font-size: 0.8rem; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--text); }
+
+/* ─── HERO ─── */
+#hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 9rem 3.5rem 5rem;
+  position: relative; overflow: hidden;
+}
+
+.hero-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+
+.orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(90px); opacity: 0.28;
+}
+.orb1 { width: 700px; height: 700px; background: #8b5cf6; top: -250px; right: -150px; animation: o1 14s ease-in-out infinite alternate; }
+.orb2 { width: 500px; height: 500px; background: #ec4899; bottom: -150px; left: 5%; animation: o2 17s ease-in-out infinite alternate; }
+.orb3 { width: 350px; height: 350px; background: #06b6d4; top: 25%; left: 55%; animation: o1 20s ease-in-out infinite alternate-reverse; }
+
+@keyframes o1 { to { transform: translateY(-50px) scale(1.08); } }
+@keyframes o2 { to { transform: translateX(40px) scale(0.94); } }
+
+.hero-content { position: relative; z-index: 1; max-width: 960px; }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-size: 0.72rem; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--p1); margin-bottom: 1.6rem;
+}
+.eyebrow::before {
+  content: ''; display: block; width: 28px; height: 1px; background: var(--p1);
+}
+
+h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(3.8rem, 9vw, 7.5rem);
+  font-weight: 800; line-height: 0.95;
+  letter-spacing: -0.03em; margin-bottom: 1.8rem;
+}
+
+.gt {
+  background: var(--grad3);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+.hero-sub {
+  font-size: 1.1rem; color: var(--muted);
+  max-width: 520px; margin-bottom: 2.8rem; line-height: 1.85;
+}
+
+.ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+.btn-p {
+  display: inline-block; padding: 0.9rem 2rem;
+  background: var(--grad); color: #fff; text-decoration: none;
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  font-size: 0.85rem; letter-spacing: 0.06em;
+  border-radius: 50px; transition: opacity 0.2s, transform 0.2s;
+  box-shadow: 0 4px 24px rgba(176,110,243,0.3);
+}
+.btn-p:hover { opacity: 0.88; transform: translateY(-2px); }
+
+.btn-o {
+  display: inline-block; padding: 0.9rem 2rem;
+  border: 1px solid rgba(176,110,243,0.35); color: var(--text);
+  text-decoration: none; font-family: 'Syne', sans-serif;
+  font-weight: 700; font-size: 0.85rem; letter-spacing: 0.06em;
+  border-radius: 50px; transition: all 0.2s;
+}
+.btn-o:hover { border-color: var(--p1); background: rgba(176,110,243,0.07); transform: translateY(-2px); }
+
+/* scroll indicator */
+.scroll-hint {
+  position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+  color: var(--dim); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+  animation: bob 2s ease-in-out infinite;
+}
+@keyframes bob { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+.scroll-arrow { font-size: 1rem; }
+
+/* ─── SECTIONS ─── */
+section { padding: 7rem 3.5rem; }
+
+.sec-label {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-size: 0.7rem; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--p1); margin-bottom: 0.8rem;
+}
+.sec-label::before { content: ''; width: 22px; height: 1px; background: var(--p1); }
+
+h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+  font-weight: 800; line-height: 1.05;
+  letter-spacing: -0.025em; margin-bottom: 3rem;
+}
+
+/* ─── ABOUT ─── */
+#about { background: var(--bg2); }
+
+.about-grid {
+  display: grid; grid-template-columns: 1fr 1.2fr;
+  gap: 6rem; align-items: center; max-width: 1100px;
+}
+
+.about-visual {
+  aspect-ratio: 1; max-width: 400px;
+  position: relative;
+}
+
+.av-ring {
+  position: absolute; inset: 0; border-radius: 32px;
+  border: 1px solid rgba(176,110,243,0.2);
+  background: linear-gradient(135deg, rgba(176,110,243,0.07), rgba(240,96,144,0.04));
+}
+
+.av-inner {
+  position: absolute; inset: 0; border-radius: 32px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 0.2rem;
+}
+
+.av-monogram {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: 8rem; line-height: 1;
+  background: var(--grad3);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  opacity: 0.75;
+}
+
+.av-title {
+  font-size: 0.75rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted);
+}
+
+.daw-bars {
+  display: flex; align-items: flex-end; gap: 3px;
+  height: 40px; margin-top: 1.2rem; opacity: 0.5;
+}
+.daw-bar {
+  width: 4px; border-radius: 2px;
+  background: var(--grad); animation: daw 1.6s ease-in-out infinite alternate;
+}
+
+@keyframes daw { to { transform: scaleY(var(--s)); } }
+
+.about-p { color: var(--muted); margin-bottom: 1.1rem; line-height: 1.9; }
+
+.stats {
+  display: flex; gap: 2.5rem; margin-top: 2rem;
+  padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05);
+}
+.stat { display: flex; flex-direction: column; gap: 0.15rem; }
+.stat-n {
+  font-family: 'Syne', sans-serif; font-size: 1.9rem; font-weight: 800;
+  background: var(--grad); -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; background-clip: text;
+}
+.stat-l { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.04em; }
+
+/* ─── MIXING SECTION ─── */
+#mixing { background: var(--bg); }
+
+.mixing-intro {
+  color: var(--muted); max-width: 540px;
+  margin-bottom: 3.5rem; font-size: 1rem; line-height: 1.9;
+}
+
+/* Track selector */
+.track-selector {
+  display: flex; flex-direction: column; gap: 0.5rem;
+  margin-bottom: 2.5rem; max-width: 760px;
+}
+
+.ts-row {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 0.9rem 1.4rem;
+  background: var(--bg3); border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 14px; cursor: pointer;
+  transition: all 0.2s;
+}
+.ts-row:hover { border-color: rgba(176,110,243,0.22); background: var(--bg4); }
+.ts-row.ts-active { border-color: rgba(176,110,243,0.5); background: rgba(176,110,243,0.06); }
+
+.ts-num {
+  font-family: 'Syne', sans-serif; font-size: 0.75rem;
+  font-weight: 700; color: var(--dim); min-width: 22px;
+}
+.ts-info { flex: 1; }
+.ts-title { font-size: 0.9rem; font-weight: 500; }
+.ts-genre { font-size: 0.75rem; color: var(--muted); }
+.ts-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--p1); opacity: 0; transition: opacity 0.2s;
+  box-shadow: 0 0 8px var(--p1);
+}
+.ts-row.ts-active .ts-dot { opacity: 1; }
+
+/* Player card */
+.player-card {
+  max-width: 760px;
+  background: var(--bg3);
+  border: 1px solid rgba(176,110,243,0.14);
+  border-radius: 28px;
+  padding: 2.2rem 2.8rem;
+  display: flex; flex-direction: column; gap: 2rem;
+  position: relative; overflow: hidden;
+}
+
+.pc-glow {
+  position: absolute; top: -100px; right: -100px;
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(176,110,243,0.1), transparent 70%);
+  pointer-events: none;
+}
+
+.pc-top {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 1rem;
+}
+
+.pc-meta {}
+.pc-track-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.25rem; font-weight: 800;
+  letter-spacing: -0.01em; margin-bottom: 0.2rem;
+}
+.pc-track-sub { font-size: 0.82rem; color: var(--muted); }
+
+.pc-badge {
+  font-size: 0.68rem; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.28rem 0.85rem; border-radius: 100px;
+  border: 1px solid; white-space: nowrap;
+  transition: all 0.3s; margin-top: 0.2rem;
+}
+.badge-b { color: var(--cfb); border-color: rgba(34,211,238,0.35); background: rgba(34,211,238,0.07); }
+.badge-a { color: var(--cfa); border-color: rgba(176,110,243,0.35); background: rgba(176,110,243,0.07); }
+
+/* Waveform */
+.wf-wrap {
+  position: relative; height: 88px;
+  cursor: pointer; border-radius: 14px;
+  overflow: hidden; background: var(--bg2);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+.wf-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.wf-progress {
+  position: absolute; top: 0; bottom: 0; width: 2px;
+  background: rgba(255,255,255,0.7);
+  pointer-events: none; left: 0%;
+  box-shadow: 0 0 10px rgba(255,255,255,0.3);
+  transition: left 0.05s linear;
+}
+.wf-time {
+  position: absolute; bottom: 7px; right: 10px;
+  font-size: 0.7rem; font-family: 'Syne', sans-serif;
+  color: var(--muted); letter-spacing: 0.04em;
+}
+
+/* Transport */
+.transport {
+  display: flex; align-items: center;
+  justify-content: center; gap: 1.2rem;
+}
+
+.btn-play {
+  width: 56px; height: 56px; border-radius: 50%; border: none;
+  background: var(--grad); color: #fff; font-size: 1.25rem;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: transform 0.15s, opacity 0.15s;
+  box-shadow: 0 4px 22px rgba(176,110,243,0.4);
+}
+.btn-play:hover { transform: scale(1.07); }
+.btn-play:active { transform: scale(0.95); }
+
+.btn-aux {
+  width: 38px; height: 38px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.09); background: transparent;
+  color: var(--muted); font-size: 1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.btn-aux:hover { color: var(--text); border-color: rgba(255,255,255,0.22); }
+
+/* VU */
+.vu-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.vu-meter { display: flex; flex-direction: column; gap: 0.45rem; }
+.vu-lbl {
+  font-size: 0.67rem; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+}
+.vu-lbl-b { color: rgba(34,211,238,0.65); }
+.vu-lbl-a { color: rgba(176,110,243,0.65); }
+.vu-track { height: 5px; background: var(--bg2); border-radius: 3px; overflow: hidden; }
+.vu-fill { height: 100%; border-radius: 3px; width: 0%; transition: width 0.08s; }
+.vu-fill-b { background: linear-gradient(90deg, #0891b2, #22d3ee); }
+.vu-fill-a { background: linear-gradient(90deg, #7c3aed, #b06ef3); }
+
+/* Crossfader */
+.cf-section { display: flex; flex-direction: column; gap: 0.8rem; }
+.cf-labels { display: flex; justify-content: space-between; align-items: center; }
+.cf-lbl { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+.cf-lbl-b { color: var(--cfb); }
+.cf-lbl-a { color: var(--cfa); }
+.cf-mid {
+  font-size: 0.7rem; color: var(--muted);
+  letter-spacing: 0.06em; text-transform: uppercase;
+  font-family: 'Syne', sans-serif;
+}
+
+.cf-wrap {
+  position: relative; height: 52px; display: flex; align-items: center;
+}
+.cf-track {
+  position: absolute; left: 0; right: 0;
+  height: 5px; border-radius: 3px; background: var(--bg2);
+}
+.cf-fill {
+  position: absolute; top: 0; bottom: 0; border-radius: 3px;
+}
+.cf-input {
+  position: absolute; left: 0; right: 0; width: 100%;
+  height: 52px; opacity: 0; cursor: grab; margin: 0; z-index: 10;
+  -webkit-appearance: none;
+}
+.cf-input:active { cursor: grabbing; }
+.cf-thumb {
+  position: absolute; width: 26px; height: 26px; border-radius: 50%;
+  background: var(--bg3); border: 2px solid rgba(255,255,255,0.7);
+  box-shadow: 0 2px 14px rgba(0,0,0,0.5);
+  top: 50%; transform: translate(-50%, -50%);
+  pointer-events: none;
+  display: flex; align-items: center; justify-content: center;
+}
+.cf-thumb-icon { font-size: 0.6rem; color: var(--muted); }
+
+/* Upload row */
+.upload-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+.upbtn {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 0.35rem; padding: 1rem; border-radius: 14px; border: 1px dashed;
+  cursor: pointer; transition: all 0.2s; background: transparent; color: inherit;
+  font-family: 'DM Sans', sans-serif; text-align: center;
+}
+.upbtn-b { border-color: rgba(34,211,238,0.28); color: rgba(34,211,238,0.75); }
+.upbtn-b:hover { background: rgba(34,211,238,0.05); border-color: rgba(34,211,238,0.5); }
+.upbtn-a { border-color: rgba(176,110,243,0.28); color: rgba(176,110,243,0.75); }
+.upbtn-a:hover { background: rgba(176,110,243,0.05); border-color: rgba(176,110,243,0.5); }
+.upbtn-icon { font-size: 1.3rem; }
+.upbtn-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+.upbtn-sub { font-size: 0.68rem; opacity: 0.55; }
+input[type="file"] { display: none; }
+
+.pc-hint {
+  text-align: center; font-size: 0.75rem; color: var(--muted);
+  background: rgba(255,255,255,0.02); border-radius: 10px; padding: 0.6rem;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+.pc-hint strong { color: var(--p1); }
+
+/* ─── TESTIMONIALS ─── */
+#testimonials { background: var(--bg2); }
+
+.test-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.4rem; max-width: 1100px;
+}
+
+.test-card {
+  background: var(--bg3); border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 22px; padding: 2rem;
+  transition: border-color 0.25s;
+}
+.test-card:hover { border-color: rgba(176,110,243,0.22); }
+
+.qmark {
+  font-family: 'Syne', sans-serif; font-size: 4.5rem;
+  line-height: 0.75; display: block; margin-bottom: 0.9rem;
+  background: var(--grad);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+.stars { display: flex; gap: 2px; margin-bottom: 0.9rem; }
+.star { color: var(--gold); font-size: 0.82rem; }
+
+.test-text {
+  color: var(--muted); font-size: 0.9rem;
+  line-height: 1.9; margin-bottom: 1.4rem; font-style: italic;
+}
+
+.test-author { display: flex; align-items: center; gap: 0.75rem; }
+.test-av {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--grad); display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: 0.85rem; color: #fff; flex-shrink: 0;
+}
+.test-name { font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700; }
+.test-role { font-size: 0.75rem; color: var(--muted); }
+
+/* ─── CONTACT ─── */
+#contact { background: var(--bg); }
+
+.contact-wrap { max-width: 680px; }
+.contact-sub {
+  color: var(--muted); margin-bottom: 2.8rem;
+  font-size: 1rem; line-height: 1.9; max-width: 520px;
+}
+
+.cf-form { display: flex; flex-direction: column; gap: 1.1rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+.form-g { display: flex; flex-direction: column; gap: 0.45rem; }
+
+label {
+  font-size: 0.72rem; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+}
+
+input, textarea, select {
+  background: var(--bg3); border: 1px solid rgba(255,255,255,0.07);
+  color: var(--text); font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem; padding: 0.82rem 1rem;
+  border-radius: 12px; outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: rgba(176,110,243,0.45);
+  box-shadow: 0 0 0 3px rgba(176,110,243,0.07);
+}
+select option { background: var(--bg3); }
+textarea { min-height: 130px; resize: vertical; }
+
+.btn-send {
+  align-self: flex-start; padding: 1rem 2.4rem;
+  background: var(--grad); color: #fff; border: none;
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  font-size: 0.9rem; letter-spacing: 0.05em;
+  border-radius: 50px; cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+  box-shadow: 0 4px 20px rgba(176,110,243,0.3);
+}
+.btn-send:hover { opacity: 0.88; transform: translateY(-2px); }
+
+.contact-alts { display: flex; gap: 1.8rem; margin-top: 2.2rem; flex-wrap: wrap; }
+.contact-alt {
+  display: flex; align-items: center; gap: 0.55rem;
+  color: var(--muted); text-decoration: none; font-size: 0.88rem;
+  transition: color 0.2s;
+}
+.contact-alt:hover { color: var(--p1); }
+.ca-icon {
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid rgba(176,110,243,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem; transition: border-color 0.2s;
+}
+.contact-alt:hover .ca-icon { border-color: rgba(176,110,243,0.5); }
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--bg2); border-top: 1px solid rgba(255,255,255,0.04);
+  padding: 2rem 3.5rem; display: flex;
+  justify-content: space-between; align-items: center;
+  font-size: 0.8rem; color: var(--muted);
+}
+.f-logo {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  background: var(--grad); -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+/* ─── REVEAL ─── */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 820px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { gap: 1.2rem; }
+  section { padding: 5rem 1.5rem; }
+  #hero { padding: 7rem 1.5rem 3rem; }
+  .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .player-card { padding: 1.5rem 1.5rem; }
+  .form-row { grid-template-columns: 1fr; }
+  footer { flex-direction: column; gap: 0.8rem; text-align: center; }
+  .stats { gap: 1.5rem; }
+}
 </style>
 </head>
 <body>
@@ -619,7 +572,7 @@
   <a href="#hero" class="nav-logo">Eliáš Kajan</a>
   <ul class="nav-links">
     <li><a href="#about">O mne</a></li>
-    <li><a href="#portfolio">Portfólio</a></li>
+    <li><a href="#mixing">Práce</a></li>
     <li><a href="#testimonials">Referencie</a></li>
     <li><a href="#contact">Kontakt</a></li>
   </ul>
@@ -632,311 +585,458 @@
     <div class="orb orb2"></div>
     <div class="orb orb3"></div>
   </div>
-  <div class="waveform" id="waveform"></div>
   <div class="hero-content">
-    <div class="hero-eyebrow">Mixing Engineer · Slovakia</div>
-    <h1>
-      Zvuk, ktorý<br>
-      <span class="gradient-text">cítiš.</span>
-    </h1>
-    <p class="hero-desc">
-      Pomáham kapelám a umelcom dostať ich hudbu na profesionálnu úroveň — mix, ktorý znie tak, ako ste ho cítili pri skladaní.
-    </p>
-    <div class="hero-ctas">
-      <a href="#portfolio" class="btn-primary">Pozrieť práce</a>
-      <a href="#contact" class="btn-outline">Kontaktovať</a>
+    <div class="eyebrow">Mixing Engineer · Slovakia</div>
+    <h1>Zvuk, ktorý<br><span class="gt">cítiš.</span></h1>
+    <p class="hero-sub">Pomáham kapelám a umelcom dostať ich hudbu na profesionálnu úroveň — mix, ktorý znie tak, ako ste ho cítili pri skladaní.</p>
+    <div class="ctas">
+      <a href="#mixing" class="btn-p">Počuť ukážky</a>
+      <a href="#contact" class="btn-o">Kontaktovať</a>
     </div>
   </div>
+  <div class="scroll-hint"><span class="scroll-arrow">↓</span>scroll</div>
 </section>
 
 <!-- ABOUT -->
 <section id="about">
   <div class="about-grid reveal">
     <div class="about-visual">
-      <div class="about-visual-bg"></div>
-      <div class="about-visual-inner">
-        <span class="big-letter">EK</span>
+      <div class="av-ring"></div>
+      <div class="av-inner">
+        <span class="av-monogram">EK</span>
+        <span class="av-title">Mixing Engineer</span>
+        <div class="daw-bars" id="dawBars"></div>
       </div>
     </div>
-    <div class="about-text">
-      <div class="section-label">O mne</div>
+    <div>
+      <div class="sec-label">O mne</div>
       <h2>Milujem zvuk v každej jeho podobe.</h2>
-      <p>Som mixing engineer z Nitry. Pracujem v Pro Tools a špecializujem sa na nahrávanie a mix slovenských kapiel — od post-produkcie štúdiových nahrávok až po live sound.</p>
-      <p>Každý projekt beriem ako výzvu dostať z hudby to najlepšie. Nezáleží, či je to rock, elektronika alebo akustika — mix musí mať charakter.</p>
-      <p>Momentálne otvorený pre nové projekty online aj lokálne.</p>
-      <div class="stats-row">
-        <div class="stat">
-          <span class="stat-num">Pro</span>
-          <span class="stat-label">Tools workflow</span>
-        </div>
-        <div class="stat">
-          <span class="stat-num">SK</span>
-          <span class="stat-label">Miestne kapely</span>
-        </div>
-        <div class="stat">
-          <span class="stat-num">∞</span>
-          <span class="stat-label">Pasión k zvuku</span>
-        </div>
+      <p class="about-p">Som mixing engineer z Nitry. Pracujem v Pro Tools a špecializujem sa na nahrávanie a mix slovenských kapiel — od post-produkcie štúdiových nahrávok až po live sound.</p>
+      <p class="about-p">Každý projekt beriem ako výzvu dostať z hudby to najlepšie. Nezáleží, či je to rock, elektronika alebo akustika — mix musí mať charakter.</p>
+      <p class="about-p">Momentálne otvorený pre nové projekty online aj lokálne.</p>
+      <div class="stats">
+        <div class="stat"><span class="stat-n">PT</span><span class="stat-l">Pro Tools</span></div>
+        <div class="stat"><span class="stat-n">SK</span><span class="stat-l">Lokálne kapely</span></div>
+        <div class="stat"><span class="stat-n">∞</span><span class="stat-l">Pasión k zvuku</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PORTFOLIO -->
-<section id="portfolio">
-  <div class="section-label">Portfólio</div>
-  <h2>Vybrané <span class="gradient-text">projekty.</span></h2>
-  <div class="portfolio-grid reveal">
+<!-- MIXING / BEFORE-AFTER -->
+<section id="mixing">
+  <div class="sec-label">Portfólio</div>
+  <h2>Počuj <span class="gt">rozdiel.</span></h2>
+  <p class="mixing-intro">Nahraj before &amp; after súbory a posunom slidera porovnaj surový záznam s finálnym mixom — v reálnom čase, priamo v prehliadači.</p>
 
-    <div class="project-card">
-      <div class="project-thumb thumb-grad1">
-        <div class="thumb-waves" id="tw1"></div>
+  <div class="track-selector reveal" id="trackSelector"></div>
+
+  <div class="player-card reveal">
+    <div class="pc-glow"></div>
+
+    <!-- top -->
+    <div class="pc-top">
+      <div class="pc-meta">
+        <div class="pc-track-title" id="pcTitle">Kapela A — Rock Single</div>
+        <div class="pc-track-sub" id="pcSub">Rock / Indie · Mix by Eliáš Kajan</div>
       </div>
-      <div class="project-info">
-        <div class="project-genre">Rock / Indie</div>
-        <div class="project-title">Demo EP — Kapela A</div>
-        <div class="project-desc">Full mix 4-skladbového EP. Drums, bass, 2× guitar, vox.</div>
-        <div class="project-tags">
-          <span class="tag">Pro Tools</span>
-          <span class="tag">Mixing</span>
-          <span class="tag">Mastering</span>
-        </div>
+      <div class="pc-badge badge-b" id="pcBadge">Before</div>
+    </div>
+
+    <!-- waveform -->
+    <div class="wf-wrap" id="wfWrap">
+      <canvas class="wf-canvas" id="wfCanvas"></canvas>
+      <div class="wf-progress" id="wfProgress"></div>
+      <div class="wf-time" id="wfTime">0:00 / 0:00</div>
+    </div>
+
+    <!-- transport -->
+    <div class="transport">
+      <button class="btn-aux" onclick="restartAudio()" title="Restart">↺</button>
+      <button class="btn-play" id="playBtn" onclick="togglePlay()">▶</button>
+      <button class="btn-aux" title="Nahraj súbory" onclick="document.getElementById('uploadRow').scrollIntoView({behavior:'smooth'})">⬆</button>
+    </div>
+
+    <!-- VU -->
+    <div class="vu-row">
+      <div class="vu-meter">
+        <div class="vu-lbl vu-lbl-b">Before</div>
+        <div class="vu-track"><div class="vu-fill vu-fill-b" id="vuB"></div></div>
+      </div>
+      <div class="vu-meter">
+        <div class="vu-lbl vu-lbl-a">After</div>
+        <div class="vu-track"><div class="vu-fill vu-fill-a" id="vuA"></div></div>
       </div>
     </div>
 
-    <div class="project-card">
-      <div class="project-thumb thumb-grad2">
-        <div class="thumb-waves" id="tw2"></div>
+    <!-- Crossfader -->
+    <div class="cf-section">
+      <div class="cf-labels">
+        <span class="cf-lbl cf-lbl-b">Before</span>
+        <span class="cf-mid" id="cfMid">50 / 50</span>
+        <span class="cf-lbl cf-lbl-a">After</span>
       </div>
-      <div class="project-info">
-        <div class="project-genre">Electronic / Ambient</div>
-        <div class="project-title">Singl — Projekt B</div>
-        <div class="project-desc">Atmosferický mix so spatial audio prvkami.</div>
-        <div class="project-tags">
-          <span class="tag">Stem Mix</span>
-          <span class="tag">Automation</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="project-card">
-      <div class="project-thumb thumb-grad3">
-        <div class="thumb-waves" id="tw3"></div>
-      </div>
-      <div class="project-info">
-        <div class="project-genre">Folk / Akustika</div>
-        <div class="project-title">Album — Kapela C</div>
-        <div class="project-desc">10-skladbový album, živé nahrávky s orchester.</div>
-        <div class="project-tags">
-          <span class="tag">Mixing</span>
-          <span class="tag">Live recording</span>
-        </div>
+      <div class="cf-wrap">
+        <div class="cf-track"><div class="cf-fill" id="cfFill"></div></div>
+        <input type="range" class="cf-input" id="cfSlider" min="0" max="100" value="50">
+        <div class="cf-thumb" id="cfThumb" style="left:50%"><span class="cf-thumb-icon">⇔</span></div>
       </div>
     </div>
 
-    <div class="project-card">
-      <div class="project-thumb thumb-grad4">
-        <div class="thumb-waves" id="tw4"></div>
-      </div>
-      <div class="project-info">
-        <div class="project-genre">Hip-hop / Trap</div>
-        <div class="project-title">Single — Umelec D</div>
-        <div class="project-desc">Vocal chain, mix a mastering pre streaming platformy.</div>
-        <div class="project-tags">
-          <span class="tag">Vocal Mix</span>
-          <span class="tag">Mastering</span>
-        </div>
-      </div>
+    <!-- Upload -->
+    <div class="upload-row" id="uploadRow">
+      <label class="upbtn upbtn-b" for="fileBefore">
+        <span class="upbtn-icon">◎</span>
+        <span class="upbtn-label">Before</span>
+        <span class="upbtn-sub" id="nameB">Nahraj audio súbor</span>
+      </label>
+      <input type="file" id="fileBefore" accept="audio/*" onchange="loadFile('before',this)">
+
+      <label class="upbtn upbtn-a" for="fileAfter">
+        <span class="upbtn-icon">◎</span>
+        <span class="upbtn-label">After</span>
+        <span class="upbtn-sub" id="nameA">Nahraj audio súbor</span>
+      </label>
+      <input type="file" id="fileAfter" accept="audio/*" onchange="loadFile('after',this)">
     </div>
 
-    <div class="project-card">
-      <div class="project-thumb thumb-grad5">
-        <div class="thumb-waves" id="tw5"></div>
-      </div>
-      <div class="project-info">
-        <div class="project-genre">Metal / Hardcore</div>
-        <div class="project-title">EP — Kapela E</div>
-        <div class="project-desc">Agresívny gitarový mix, drum replacement, parallel compression.</div>
-        <div class="project-tags">
-          <span class="tag">Heavy mix</span>
-          <span class="tag">Drum editing</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="project-card">
-      <div class="project-thumb thumb-grad6">
-        <div class="thumb-waves" id="tw6"></div>
-      </div>
-      <div class="project-info">
-        <div class="project-genre">Pop / R&amp;B</div>
-        <div class="project-title">Single — Projekt F</div>
-        <div class="project-desc">Moderný pop mix, Dolby Atmos compatible stem delivery.</div>
-        <div class="project-tags">
-          <span class="tag">Modern Pop</span>
-          <span class="tag">Atmos ready</span>
-        </div>
-      </div>
-    </div>
-
+    <div class="pc-hint">Slider mieša <strong>Before</strong> (raw) a <strong>After</strong> (finálny mix) v reálnom čase pomocou equal-power crossfade.</div>
   </div>
 </section>
 
 <!-- TESTIMONIALS -->
 <section id="testimonials">
-  <div class="section-label">Referencie</div>
-  <h2>Čo hovoria <span class="gradient-text">klienti.</span></h2>
-  <div class="testimonials-grid reveal">
-
-    <div class="testimonial-card">
-      <span class="quote-mark">"</span>
-      <div class="stars">
-        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-      </div>
-      <p class="testimonial-text">Eliáš pochopil náš zvuk hneď od prvého posluchu. Mix EP znel presne tak, ako sme chceli — energicky, čisto, s charakterom.</p>
-      <div class="testimonial-author">
-        <div class="author-avatar">JN</div>
-        <div>
-          <div class="author-name">Jakub Novák</div>
-          <div class="author-role">Gitarista, Kapela A</div>
-        </div>
+  <div class="sec-label">Referencie</div>
+  <h2>Čo hovoria <span class="gt">klienti.</span></h2>
+  <div class="test-grid reveal">
+    <div class="test-card">
+      <span class="qmark">"</span>
+      <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      <p class="test-text">Eliáš pochopil náš zvuk hneď od prvého posluchu. Mix EP znel presne tak, ako sme chceli — energicky, čisto, s charakterom.</p>
+      <div class="test-author">
+        <div class="test-av">JN</div>
+        <div><div class="test-name">Jakub Novák</div><div class="test-role">Gitarista, Kapela A</div></div>
       </div>
     </div>
-
-    <div class="testimonial-card">
-      <span class="quote-mark">"</span>
-      <div class="stars">
-        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-      </div>
-      <p class="testimonial-text">Spolupráca bola profesionálna a rýchla. Revision boli vždy zapracované presne podľa našich požiadaviek. Odporúčam každej kapele.</p>
-      <div class="testimonial-author">
-        <div class="author-avatar">MK</div>
-        <div>
-          <div class="author-name">Mária Kollárová</div>
-          <div class="author-role">Speváčka, Projekt B</div>
-        </div>
+    <div class="test-card">
+      <span class="qmark">"</span>
+      <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      <p class="test-text">Spolupráca bola profesionálna a rýchla. Revízie boli vždy zapracované presne podľa našich požiadaviek. Odporúčam každej kapele.</p>
+      <div class="test-author">
+        <div class="test-av">MK</div>
+        <div><div class="test-name">Mária Kollárová</div><div class="test-role">Speváčka, Projekt B</div></div>
       </div>
     </div>
-
-    <div class="testimonial-card">
-      <span class="quote-mark">"</span>
-      <div class="stars">
-        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-      </div>
-      <p class="testimonial-text">Výsledok predčil všetky očakávania. Nahrávky z live koncertu dostali nový život. Určite budeme pokračovať na ďalšom albume.</p>
-      <div class="testimonial-author">
-        <div class="author-avatar">TP</div>
-        <div>
-          <div class="author-name">Tomáš Polák</div>
-          <div class="author-role">Bubeník, Kapela C</div>
-        </div>
+    <div class="test-card">
+      <span class="qmark">"</span>
+      <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      <p class="test-text">Výsledok predčil všetky očakávania. Nahrávky z live koncertu dostali nový život. Určite budeme pokračovať na ďalšom albume.</p>
+      <div class="test-author">
+        <div class="test-av">TP</div>
+        <div><div class="test-name">Tomáš Polák</div><div class="test-role">Bubeník, Kapela C</div></div>
       </div>
     </div>
-
   </div>
 </section>
 
 <!-- CONTACT -->
 <section id="contact">
   <div class="contact-wrap reveal">
-    <div class="section-label">Kontakt</div>
-    <h2>Začnime <span class="gradient-text">pracovať.</span></h2>
-    <p class="contact-intro">Máš projekt, kapelu, alebo len otázku? Napíš mi. Odpoviem zvyčajne do 24 hodín.</p>
-
-    <form class="contact-form" onsubmit="handleSubmit(event)">
+    <div class="sec-label">Kontakt</div>
+    <h2>Začnime <span class="gt">pracovať.</span></h2>
+    <p class="contact-sub">Máš projekt, kapelu, alebo len otázku? Napíš mi. Odpoviem zvyčajne do 24 hodín.</p>
+    <form class="cf-form" onsubmit="sendForm(event)">
       <div class="form-row">
-        <div class="form-group">
-          <label for="name">Meno</label>
-          <input type="text" id="name" placeholder="Tvoje meno" required>
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" placeholder="tvoj@email.com" required>
-        </div>
+        <div class="form-g"><label for="fname">Meno</label><input type="text" id="fname" placeholder="Tvoje meno" required></div>
+        <div class="form-g"><label for="femail">Email</label><input type="email" id="femail" placeholder="tvoj@email.com" required></div>
       </div>
-      <div class="form-group">
-        <label for="service">Čo hľadáš?</label>
-        <select id="service">
+      <div class="form-g">
+        <label for="fservice">Čo hľadáš?</label>
+        <select id="fservice">
           <option value="">— Vyber službu —</option>
           <option>Mixing (online)</option>
           <option>Mixing + Mastering</option>
           <option>Nahrávanie kapely</option>
           <option>Live sound</option>
-          <option>Iné / Konzultácia</option>
+          <option>Konzultácia</option>
         </select>
       </div>
-      <div class="form-group">
-        <label for="message">Správa</label>
-        <textarea id="message" placeholder="Povedz mi o projekte — žáner, počet skladieb, deadline..."></textarea>
-      </div>
-      <button type="submit" class="btn-send">Odoslať správu →</button>
+      <div class="form-g"><label for="fmsg">Správa</label><textarea id="fmsg" placeholder="Povedz mi o projekte — žáner, počet skladieb, deadline..."></textarea></div>
+      <button type="submit" class="btn-send" id="sendBtn">Odoslať správu →</button>
     </form>
-
     <div class="contact-alts">
-      <a href="mailto:elias@kajan.sk" class="contact-alt">
-        <span class="contact-alt-icon">✉</span>
-        elias@kajan.sk
-      </a>
-      <a href="https://instagram.com" class="contact-alt" target="_blank">
-        <span class="contact-alt-icon">◎</span>
-        Instagram
-      </a>
-      <a href="https://soundcloud.com" class="contact-alt" target="_blank">
-        <span class="contact-alt-icon">♫</span>
-        SoundCloud
-      </a>
+      <a href="mailto:elias@kajan.sk" class="contact-alt"><span class="ca-icon">✉</span>elias@kajan.sk</a>
+      <a href="https://instagram.com" class="contact-alt" target="_blank"><span class="ca-icon">◎</span>Instagram</a>
+      <a href="https://soundcloud.com" class="contact-alt" target="_blank"><span class="ca-icon">♫</span>SoundCloud</a>
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <span class="logo">Eliáš Kajan</span>
+  <span class="f-logo">Eliáš Kajan</span>
   <span>© 2025 · Mixing Engineer · Slovakia</span>
   <span>Made with 🎚</span>
 </footer>
 
 <script>
-  // Waveform hero
-  const wf = document.getElementById('waveform');
-  const heights = [8,14,22,35,50,42,28,18,12,22,38,55,45,30,16,10,20,40,58,48,32,18,14,24,44,60,52,36,20,12,16,32,50,62,54,38,22,14,18,36,56,64,50,34,20,12];
-  heights.forEach((h, i) => {
-    const s = document.createElement('span');
-    s.style.cssText = `--h:${h}px; animation-delay:${(i * 0.06).toFixed(2)}s; animation-duration:${(1.2 + Math.random()*0.6).toFixed(2)}s`;
-    wf.appendChild(s);
+/* ── TRACK DATA ─────────────────────────────────────────────────────── */
+// Keď budeš mať reálne súbory, daj ich do priečinka /audio/ a nastav cesty tu:
+const TRACKS = [
+  { title: 'Kapela A — Rock Single',   genre: 'Rock / Indie',       before: '/audio/kapela-a-before.mp3', after: '/audio/kapela-a-after.mp3' },
+  { title: 'Projekt B — Ambient',      genre: 'Electronic / Ambient', before: '/audio/projekt-b-before.mp3', after: '/audio/projekt-b-after.mp3' },
+  { title: 'Kapela C — Folk Album',    genre: 'Folk / Akustika',    before: '/audio/kapela-c-before.mp3', after: '/audio/kapela-c-after.mp3' },
+];
+
+let currentTrack = 0;
+
+/* ── DAW BARS ───────────────────────────────────────────────────────── */
+const dawEl = document.getElementById('dawBars');
+[0.4,0.7,1,0.85,0.6,0.9,0.55,0.75,1,0.65,0.8,0.5].forEach((s,i) => {
+  const b = document.createElement('div');
+  b.className = 'daw-bar';
+  b.style.cssText = `height:${s*100}%;--s:${(0.2+s*0.8).toFixed(2)};animation-delay:${(i*0.13).toFixed(2)}s;animation-duration:${(1.2+s*0.8).toFixed(2)}s`;
+  dawEl.appendChild(b);
+});
+
+/* ── TRACK SELECTOR ─────────────────────────────────────────────────── */
+const sel = document.getElementById('trackSelector');
+TRACKS.forEach((t, i) => {
+  const row = document.createElement('div');
+  row.className = 'ts-row' + (i === 0 ? ' ts-active' : '');
+  row.innerHTML = `<span class="ts-num">0${i+1}</span><div class="ts-info"><div class="ts-title">${t.title}</div><div class="ts-genre">${t.genre}</div></div><div class="ts-dot"></div>`;
+  row.onclick = () => selectTrack(i);
+  sel.appendChild(row);
+});
+
+function selectTrack(i) {
+  document.querySelectorAll('.ts-row').forEach((r,j) => r.classList.toggle('ts-active', j===i));
+  currentTrack = i;
+  const t = TRACKS[i];
+  document.getElementById('pcTitle').textContent = t.title;
+  document.getElementById('pcSub').textContent = t.genre + ' · Mix by Eliáš Kajan';
+  resetPlayer();
+  // Ak existujú reálne súbory, načítaj ich:
+  if (t.before !== '' && t.after !== '') {
+    fetchAndLoad('before', t.before);
+    fetchAndLoad('after',  t.after);
+  }
+}
+
+async function fetchAndLoad(which, url) {
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return;
+    const ab = await res.arrayBuffer();
+    if (!ctx) ctx = new AudioContext();
+    const buf = await ctx.decodeAudioData(ab);
+    ap[which].buffer = buf;
+    if (!ap.duration || buf.duration > ap.duration) ap.duration = buf.duration;
+    drawWF(ap.cf);
+  } catch(e) { /* súbor neexistuje ešte */ }
+}
+
+/* ── AUDIO ENGINE ───────────────────────────────────────────────────── */
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let ctx = null;
+
+const ap = {
+  before: { buffer: null, source: null, gain: null },
+  after:  { buffer: null, source: null, gain: null },
+  playing: false,
+  startTime: 0,
+  pauseOffset: 0,
+  duration: 0,
+  cf: 50,
+  raf: null
+};
+
+async function loadFile(which, input) {
+  if (!input.files[0]) return;
+  if (!ctx) ctx = new AudioCtx();
+  const file = input.files[0];
+  const name = file.name.replace(/\.[^/.]+$/,'').slice(0,26);
+  document.getElementById(which === 'before' ? 'nameB' : 'nameA').textContent = name;
+  const ab = await file.arrayBuffer();
+  const buf = await ctx.decodeAudioData(ab);
+  ap[which].buffer = buf;
+  if (!ap.duration || buf.duration > ap.duration) ap.duration = buf.duration;
+  drawWF(ap.cf);
+}
+
+function startSources() {
+  if (!ctx) ctx = new AudioCtx();
+  ['before','after'].forEach(w => {
+    if (!ap[w].buffer) return;
+    const src  = ctx.createBufferSource();
+    const gain = ctx.createGain();
+    src.buffer = ap[w].buffer;
+    src.connect(gain); gain.connect(ctx.destination);
+    ap[w].source = src; ap[w].gain = gain;
+    src.start(0, ap.pauseOffset);
   });
+  ap.startTime = ctx.currentTime;
+  ap.playing = true;
+  applyCF(ap.cf);
+  ap.raf = requestAnimationFrame(tick);
+  document.getElementById('playBtn').textContent = '⏸';
+}
 
-  // Thumbnail waveforms
-  for (let t = 1; t <= 6; t++) {
-    const el = document.getElementById('tw' + t);
-    if (!el) continue;
-    const count = 28;
-    for (let i = 0; i < count; i++) {
-      const b = document.createElement('span');
-      const h = 8 + Math.random() * 100;
-      b.style.cssText = `height:${h}px; background: linear-gradient(to top, #a855f7, #ec4899); border-radius: 2px;`;
-      el.appendChild(b);
-    }
+function stopSources() {
+  cancelAnimationFrame(ap.raf);
+  ['before','after'].forEach(w => {
+    try { ap[w].source && ap[w].source.stop(); } catch(e){}
+    ap[w].source = null; ap[w].gain = null;
+  });
+  ap.playing = false;
+  document.getElementById('playBtn').textContent = '▶';
+}
+
+function togglePlay() {
+  if (!ap.before.buffer && !ap.after.buffer) { alert('Najskôr nahraj aspoň jeden audio súbor.'); return; }
+  if (!ctx) ctx = new AudioCtx();
+  if (ctx.state === 'suspended') ctx.resume();
+  if (ap.playing) { ap.pauseOffset += ctx.currentTime - ap.startTime; stopSources(); }
+  else startSources();
+}
+
+function restartAudio() {
+  stopSources(); ap.pauseOffset = 0;
+  document.getElementById('wfProgress').style.left = '0%';
+  document.getElementById('wfTime').textContent = '0:00 / ' + fmt(ap.duration);
+}
+
+function resetPlayer() {
+  stopSources();
+  ap.before.buffer = null; ap.after.buffer = null;
+  ap.duration = 0; ap.pauseOffset = 0;
+  document.getElementById('nameB').textContent = 'Nahraj audio súbor';
+  document.getElementById('nameA').textContent = 'Nahraj audio súbor';
+  document.getElementById('wfProgress').style.left = '0%';
+  document.getElementById('wfTime').textContent = '0:00 / 0:00';
+  drawWF(ap.cf);
+}
+
+function tick() {
+  if (!ap.playing) return;
+  const elapsed = ctx.currentTime - ap.startTime + ap.pauseOffset;
+  const clamped = Math.min(elapsed, ap.duration || 1);
+  const pct = ap.duration ? (clamped / ap.duration * 100) : 0;
+  document.getElementById('wfProgress').style.left = pct + '%';
+  document.getElementById('wfTime').textContent = fmt(clamped) + ' / ' + fmt(ap.duration);
+  if (elapsed >= ap.duration && ap.duration > 0) { stopSources(); ap.pauseOffset = 0; document.getElementById('wfProgress').style.left = '0%'; return; }
+  ap.raf = requestAnimationFrame(tick);
+}
+
+function fmt(s) {
+  const m = Math.floor(s/60), sec = Math.floor(s%60);
+  return m + ':' + String(sec).padStart(2,'0');
+}
+
+/* ── WAVEFORM ───────────────────────────────────────────────────────── */
+function drawWF(cfVal) {
+  const canvas = document.getElementById('wfCanvas');
+  const W = canvas.width  = canvas.offsetWidth  * devicePixelRatio;
+  const H = canvas.height = canvas.offsetHeight * devicePixelRatio;
+  const dc = canvas.getContext('2d');
+  dc.clearRect(0,0,W,H);
+  const bars = Math.floor(W / (3.5 * devicePixelRatio));
+  const bw = W / bars, mid = H / 2, maxH = H * 0.44;
+
+  function amp(buf, i) {
+    if (!buf) return 0.08 + Math.abs(Math.sin(i * 0.35 + i * 0.02)) * 0.18;
+    const ch = buf.getChannelData(0);
+    const s0 = Math.floor(i/bars*ch.length), s1 = Math.floor((i+1)/bars*ch.length);
+    let mx = 0;
+    for (let s=s0; s<s1; s++) mx = Math.max(mx, Math.abs(ch[s]));
+    return mx;
   }
 
-  // Scroll reveal
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.15 });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-  // Form submit
-  function handleSubmit(e) {
-    e.preventDefault();
-    const btn = e.target.querySelector('.btn-send');
-    btn.textContent = 'Odoslané ✓';
-    btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-    setTimeout(() => {
-      btn.textContent = 'Odoslať správu →';
-      btn.style.background = '';
-      e.target.reset();
-    }, 3000);
+  const t = cfVal / 100;
+  for (let i=0; i<bars; i++) {
+    const aB = amp(ap.before.buffer, i), aA = amp(ap.after.buffer, i);
+    const a  = aB*(1-t) + aA*t;
+    const h  = a * maxH * 2;
+    const x  = i*bw + bw*0.15, w = bw*0.7;
+    const g  = dc.createLinearGradient(0, mid-h/2, 0, mid+h/2);
+    g.addColorStop(0,   `rgba(176,110,243,${0.15 + t*0.6})`);
+    g.addColorStop(0.5, `rgba(240,96,144,${0.3})`);
+    g.addColorStop(1,   `rgba(34,211,238,${0.15 + (1-t)*0.6})`);
+    dc.fillStyle = g;
+    dc.beginPath();
+    if (dc.roundRect) dc.roundRect(x, mid-h/2, w, h, 1.5);
+    else dc.rect(x, mid-h/2, w, h);
+    dc.fill();
   }
+}
+
+const ro = new ResizeObserver(() => drawWF(ap.cf));
+ro.observe(document.getElementById('wfWrap'));
+
+document.getElementById('wfWrap').addEventListener('click', e => {
+  if (!ap.duration) return;
+  const r = e.currentTarget.getBoundingClientRect();
+  const pct = (e.clientX - r.left) / r.width;
+  const wasPlaying = ap.playing;
+  if (wasPlaying) stopSources();
+  ap.pauseOffset = Math.max(0, Math.min(pct * ap.duration, ap.duration));
+  if (wasPlaying) startSources();
+});
+
+/* ── CROSSFADER ─────────────────────────────────────────────────────── */
+function applyCF(val) {
+  ap.cf = val;
+  const t = val / 100;
+  const gB = Math.cos(t * Math.PI / 2);
+  const gA = Math.cos((1-t) * Math.PI / 2);
+
+  if (ap.before.gain) ap.before.gain.gain.setTargetAtTime(gB, ctx.currentTime, 0.01);
+  if (ap.after.gain)  ap.after.gain.gain.setTargetAtTime(gA, ctx.currentTime, 0.01);
+
+  const thumb = document.getElementById('cfThumb');
+  const fill  = document.getElementById('cfFill');
+  const mid   = document.getElementById('cfMid');
+  const badge = document.getElementById('pcBadge');
+
+  thumb.style.left = val + '%';
+
+  if (val <= 50) {
+    fill.style.left = val + '%'; fill.style.right = '50%';
+    fill.style.background = `rgba(34,211,238,${0.45*(1-val/50)})`;
+  } else {
+    fill.style.left = '50%'; fill.style.right = (100-val) + '%';
+    fill.style.background = `rgba(176,110,243,${0.45*((val-50)/50)})`;
+  }
+
+  mid.textContent = Math.round(100-val) + ' / ' + Math.round(val);
+
+  document.getElementById('vuB').style.width = (gB*100).toFixed(1) + '%';
+  document.getElementById('vuA').style.width = (gA*100).toFixed(1) + '%';
+
+  if (val < 15) { badge.textContent='Before'; badge.className='pc-badge badge-b'; }
+  else if (val > 85) { badge.textContent='After'; badge.className='pc-badge badge-a'; }
+  else { badge.textContent='Mix ' + Math.round(val) + '%'; badge.className='pc-badge badge-b'; badge.style.color=`hsl(${260+val*0.7}deg,70%,72%)`; badge.style.borderColor=`hsla(${260+val*0.7}deg,70%,60%,0.35)`; }
+
+  drawWF(val);
+}
+
+document.getElementById('cfSlider').addEventListener('input', e => applyCF(+e.target.value));
+applyCF(50);
+
+/* ── CONTACT FORM ───────────────────────────────────────────────────── */
+function sendForm(e) {
+  e.preventDefault();
+  const btn = document.getElementById('sendBtn');
+  btn.textContent = 'Odoslané ✓';
+  btn.style.background = 'linear-gradient(135deg,#10b981,#059669)';
+  setTimeout(() => { btn.textContent='Odoslať správu →'; btn.style.background=''; e.target.reset(); }, 3000);
+}
+
+/* ── SCROLL REVEAL ──────────────────────────────────────────────────── */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(en => { if (en.isIntersecting) en.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
 </body>
 </html>
