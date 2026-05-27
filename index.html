@@ -9,21 +9,21 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:    #07070f;
-  --bg2:   #0c0c18;
-  --bg3:   #121220;
-  --bg4:   #181828;
+  --bg:    #06060e;
+  --bg2:   #0b0b18;
+  --bg3:   #101020;
+  --bg4:   #161628;
   --text:  #ede9ff;
-  --muted: #6a6888;
-  --dim:   #3a3858;
-  --p1:    #b06ef3;
-  --p2:    #f06090;
+  --muted: #5e5c7a;
+  --dim:   #2e2c48;
+  --p1:    #a855f7;
+  --p2:    #e879a0;
   --p3:    #22d3ee;
   --gold:  #f0a040;
-  --grad:  linear-gradient(135deg, #b06ef3, #f06090);
-  --grad3: linear-gradient(135deg, #b06ef3, #f06090, #22d3ee);
+  --grad:  linear-gradient(135deg, #a855f7, #e879a0);
   --cfb:   #22d3ee;
-  --cfa:   #b06ef3;
+  --cfa:   #a855f7;
+  --max:   780px;
 }
 
 html { scroll-behavior: smooth; }
@@ -37,509 +37,446 @@ body {
   overflow-x: hidden;
 }
 
-/* ─── NOISE OVERLAY ─── */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.025;
-  pointer-events: none;
-  z-index: 9999;
+/* center wrapper */
+.wrap {
+  width: 100%;
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 2rem;
 }
 
-/* ─── NAV ─── */
+/* ── NAV ── */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 1.1rem 3.5rem;
-  background: rgba(7,7,15,0.8);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(176,110,243,0.08);
+  background: rgba(6,6,14,0.85);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(168,85,247,0.07);
 }
-
+.nav-inner {
+  max-width: var(--max); margin: 0 auto; padding: 0 2rem;
+  display: flex; justify-content: space-between; align-items: center;
+  height: 60px;
+}
 .nav-logo {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800; font-size: 1.1rem;
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem;
   background: var(--grad); -webkit-background-clip: text;
   -webkit-text-fill-color: transparent; background-clip: text;
-  text-decoration: none; letter-spacing: 0.01em;
+  text-decoration: none; letter-spacing: 0.02em;
 }
-
-.nav-links { display: flex; gap: 2.2rem; list-style: none; }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
 .nav-links a {
   color: var(--muted); text-decoration: none;
-  font-size: 0.8rem; font-weight: 500;
-  letter-spacing: 0.1em; text-transform: uppercase;
+  font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
   transition: color 0.2s;
 }
 .nav-links a:hover { color: var(--text); }
 
-/* ─── HERO ─── */
-#hero {
-  min-height: 100vh;
-  display: flex; flex-direction: column; justify-content: center;
-  padding: 9rem 3.5rem 5rem;
-  position: relative; overflow: hidden;
+/* ── SECTIONS ── */
+section { padding: 7rem 0; }
+section .wrap { position: relative; z-index: 1; }
+
+.sec-label {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-size: 0.68rem; font-weight: 500; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--p1); margin-bottom: 0.7rem;
 }
+.sec-label::before { content: ''; width: 20px; height: 1px; background: var(--p1); }
 
-.hero-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
-
-.orb {
-  position: absolute; border-radius: 50%;
-  filter: blur(90px); opacity: 0.28;
-}
-.orb1 { width: 700px; height: 700px; background: #8b5cf6; top: -250px; right: -150px; animation: o1 14s ease-in-out infinite alternate; }
-.orb2 { width: 500px; height: 500px; background: #ec4899; bottom: -150px; left: 5%; animation: o2 17s ease-in-out infinite alternate; }
-.orb3 { width: 350px; height: 350px; background: #06b6d4; top: 25%; left: 55%; animation: o1 20s ease-in-out infinite alternate-reverse; }
-
-@keyframes o1 { to { transform: translateY(-50px) scale(1.08); } }
-@keyframes o2 { to { transform: translateX(40px) scale(0.94); } }
-
-.hero-content { position: relative; z-index: 1; max-width: 960px; }
-
-.eyebrow {
-  display: inline-flex; align-items: center; gap: 0.6rem;
-  font-size: 0.72rem; font-weight: 500; letter-spacing: 0.2em;
-  text-transform: uppercase; color: var(--p1); margin-bottom: 1.6rem;
-}
-.eyebrow::before {
-  content: ''; display: block; width: 28px; height: 1px; background: var(--p1);
-}
-
-h1 {
+h2 {
   font-family: 'Syne', sans-serif;
-  font-size: clamp(3.8rem, 9vw, 7.5rem);
-  font-weight: 800; line-height: 0.95;
-  letter-spacing: -0.03em; margin-bottom: 1.8rem;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800; line-height: 1.05;
+  letter-spacing: -0.025em; margin-bottom: 2.5rem;
 }
 
 .gt {
-  background: var(--grad3);
+  background: var(--grad);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
 
+/* ── HERO ── */
+#hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative; overflow: hidden;
+  padding: 9rem 0 5rem;
+}
+
+.hero-orbs { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(100px); opacity: 0.22;
+}
+.orb1 { width: 600px; height: 600px; background: #7c3aed; top: -200px; right: -100px; animation: o1 16s ease-in-out infinite alternate; }
+.orb2 { width: 400px; height: 400px; background: #db2777; bottom: -100px; left: -80px; animation: o2 20s ease-in-out infinite alternate; }
+.orb3 { width: 280px; height: 280px; background: #0891b2; top: 40%; left: 60%; animation: o1 24s ease-in-out infinite alternate-reverse; }
+@keyframes o1 { to { transform: translateY(-40px) scale(1.06); } }
+@keyframes o2 { to { transform: translateX(30px) scale(0.94); } }
+
+.hero-content { position: relative; z-index: 1; }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-size: 0.68rem; font-weight: 500; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--p1); margin-bottom: 1.8rem;
+}
+.eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--p1); }
+
+h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(4rem, 10vw, 6.5rem);
+  font-weight: 800; line-height: 0.92;
+  letter-spacing: -0.035em; margin-bottom: 2rem;
+}
+
 .hero-sub {
-  font-size: 1.1rem; color: var(--muted);
-  max-width: 520px; margin-bottom: 2.8rem; line-height: 1.85;
+  font-size: 1.05rem; color: var(--muted);
+  max-width: 480px; margin-bottom: 3rem; line-height: 1.9;
+  font-weight: 300;
 }
 
 .ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
 
 .btn-p {
-  display: inline-block; padding: 0.9rem 2rem;
+  display: inline-block; padding: 0.85rem 1.9rem;
   background: var(--grad); color: #fff; text-decoration: none;
   font-family: 'Syne', sans-serif; font-weight: 700;
-  font-size: 0.85rem; letter-spacing: 0.06em;
-  border-radius: 50px; transition: opacity 0.2s, transform 0.2s;
-  box-shadow: 0 4px 24px rgba(176,110,243,0.3);
+  font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase;
+  border-radius: 3px; transition: opacity 0.2s, transform 0.2s;
+  box-shadow: 0 4px 28px rgba(168,85,247,0.25);
 }
-.btn-p:hover { opacity: 0.88; transform: translateY(-2px); }
+.btn-p:hover { opacity: 0.85; transform: translateY(-2px); }
 
 .btn-o {
-  display: inline-block; padding: 0.9rem 2rem;
-  border: 1px solid rgba(176,110,243,0.35); color: var(--text);
+  display: inline-block; padding: 0.85rem 1.9rem;
+  border: 1px solid var(--dim); color: var(--muted);
   text-decoration: none; font-family: 'Syne', sans-serif;
-  font-weight: 700; font-size: 0.85rem; letter-spacing: 0.06em;
-  border-radius: 50px; transition: all 0.2s;
+  font-weight: 700; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase;
+  border-radius: 3px; transition: all 0.2s;
 }
-.btn-o:hover { border-color: var(--p1); background: rgba(176,110,243,0.07); transform: translateY(-2px); }
+.btn-o:hover { border-color: rgba(168,85,247,0.4); color: var(--text); transform: translateY(-2px); }
 
-/* scroll indicator */
-.scroll-hint {
-  position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
-  color: var(--dim); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
-  animation: bob 2s ease-in-out infinite;
+.hero-rule {
+  position: absolute; bottom: 3rem; left: 0; right: 0; z-index: 1;
+  display: flex; align-items: center; justify-content: center;
+  gap: 0.6rem;
 }
-@keyframes bob { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
-.scroll-arrow { font-size: 1rem; }
+.hero-rule-line { width: 40px; height: 1px; background: var(--dim); }
+.hero-rule-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--p1); animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:0.4;transform:scale(1)} 50%{opacity:1;transform:scale(1.4)} }
 
-/* ─── SECTIONS ─── */
-section { padding: 7rem 3.5rem; }
-
-.sec-label {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  font-size: 0.7rem; font-weight: 500; letter-spacing: 0.2em;
-  text-transform: uppercase; color: var(--p1); margin-bottom: 0.8rem;
-}
-.sec-label::before { content: ''; width: 22px; height: 1px; background: var(--p1); }
-
-h2 {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(2.2rem, 4.5vw, 3.4rem);
-  font-weight: 800; line-height: 1.05;
-  letter-spacing: -0.025em; margin-bottom: 3rem;
-}
-
-/* ─── ABOUT ─── */
+/* ── ABOUT ── */
 #about { background: var(--bg2); }
 
-.about-grid {
-  display: grid; grid-template-columns: 1fr 1.2fr;
-  gap: 6rem; align-items: center; max-width: 1100px;
+.about-split {
+  display: grid; grid-template-columns: 140px 1fr;
+  gap: 3.5rem; align-items: start;
 }
 
-.about-visual {
-  aspect-ratio: 1; max-width: 400px;
-  position: relative;
-}
+.about-left {}
 
-.av-ring {
-  position: absolute; inset: 0; border-radius: 32px;
-  border: 1px solid rgba(176,110,243,0.2);
-  background: linear-gradient(135deg, rgba(176,110,243,0.07), rgba(240,96,144,0.04));
-}
-
-.av-inner {
-  position: absolute; inset: 0; border-radius: 32px;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 0.2rem;
-}
-
-.av-monogram {
+.ek-mark {
   font-family: 'Syne', sans-serif; font-weight: 800;
-  font-size: 8rem; line-height: 1;
-  background: var(--grad3);
+  font-size: 5rem; line-height: 1;
+  background: var(--grad);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  opacity: 0.75;
+  display: block; margin-bottom: 1rem; opacity: 0.6;
 }
 
-.av-title {
-  font-size: 0.75rem; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--muted);
-}
-
-.daw-bars {
-  display: flex; align-items: flex-end; gap: 3px;
-  height: 40px; margin-top: 1.2rem; opacity: 0.5;
-}
+.daw-col { display: flex; flex-direction: column; gap: 3px; width: 28px; }
 .daw-bar {
-  width: 4px; border-radius: 2px;
-  background: var(--grad); animation: daw 1.6s ease-in-out infinite alternate;
+  height: 3px; border-radius: 2px; width: 100%;
+  background: var(--grad); animation: db 1.8s ease-in-out infinite alternate;
+  transform-origin: left;
 }
+@keyframes db { to { transform: scaleX(var(--s)); opacity: var(--o); } }
 
-@keyframes daw { to { transform: scaleY(var(--s)); } }
-
-.about-p { color: var(--muted); margin-bottom: 1.1rem; line-height: 1.9; }
+.about-right {}
+.about-p { color: var(--muted); margin-bottom: 1rem; line-height: 1.9; font-size: 0.95rem; }
 
 .stats {
   display: flex; gap: 2.5rem; margin-top: 2rem;
-  padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05);
+  padding-top: 2rem; border-top: 1px solid var(--dim);
 }
-.stat { display: flex; flex-direction: column; gap: 0.15rem; }
+.stat { display: flex; flex-direction: column; gap: 0.1rem; }
 .stat-n {
-  font-family: 'Syne', sans-serif; font-size: 1.9rem; font-weight: 800;
+  font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800;
   background: var(--grad); -webkit-background-clip: text;
   -webkit-text-fill-color: transparent; background-clip: text;
 }
-.stat-l { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.04em; }
+.stat-l { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.05em; }
 
-/* ─── MIXING SECTION ─── */
+/* ── MIXING ── */
 #mixing { background: var(--bg); }
 
-.mixing-intro {
-  color: var(--muted); max-width: 540px;
-  margin-bottom: 3.5rem; font-size: 1rem; line-height: 1.9;
+.mixing-sub {
+  color: var(--muted); margin-bottom: 3rem;
+  font-size: 0.9rem; line-height: 1.9; font-weight: 300;
+  max-width: 520px;
 }
 
-/* Track selector */
-.track-selector {
-  display: flex; flex-direction: column; gap: 0.5rem;
-  margin-bottom: 2.5rem; max-width: 760px;
+/* track tabs */
+.track-tabs {
+  display: flex; gap: 0; margin-bottom: 2rem;
+  border-bottom: 1px solid var(--dim);
 }
 
-.ts-row {
-  display: flex; align-items: center; gap: 1rem;
-  padding: 0.9rem 1.4rem;
-  background: var(--bg3); border: 1px solid rgba(255,255,255,0.05);
-  border-radius: 14px; cursor: pointer;
-  transition: all 0.2s;
+.tt {
+  padding: 0.7rem 1.2rem; cursor: pointer;
+  font-size: 0.78rem; font-weight: 500; letter-spacing: 0.06em;
+  color: var(--muted); border-bottom: 2px solid transparent;
+  margin-bottom: -1px; transition: all 0.2s;
+  background: transparent; border-top: none; border-left: none; border-right: none;
+  font-family: 'DM Sans', sans-serif; color: var(--muted);
 }
-.ts-row:hover { border-color: rgba(176,110,243,0.22); background: var(--bg4); }
-.ts-row.ts-active { border-color: rgba(176,110,243,0.5); background: rgba(176,110,243,0.06); }
+.tt:hover { color: var(--text); }
+.tt.tt-active { color: var(--text); border-bottom-color: var(--p1); }
 
-.ts-num {
-  font-family: 'Syne', sans-serif; font-size: 0.75rem;
-  font-weight: 700; color: var(--dim); min-width: 22px;
-}
-.ts-info { flex: 1; }
-.ts-title { font-size: 0.9rem; font-weight: 500; }
-.ts-genre { font-size: 0.75rem; color: var(--muted); }
-.ts-dot {
-  width: 7px; height: 7px; border-radius: 50%;
-  background: var(--p1); opacity: 0; transition: opacity 0.2s;
-  box-shadow: 0 0 8px var(--p1);
-}
-.ts-row.ts-active .ts-dot { opacity: 1; }
-
-/* Player card */
-.player-card {
-  max-width: 760px;
+/* player */
+.player {
   background: var(--bg3);
-  border: 1px solid rgba(176,110,243,0.14);
-  border-radius: 28px;
-  padding: 2.2rem 2.8rem;
-  display: flex; flex-direction: column; gap: 2rem;
-  position: relative; overflow: hidden;
+  border: 1px solid rgba(168,85,247,0.1);
+  border-radius: 4px;
+  overflow: hidden;
 }
 
-.pc-glow {
-  position: absolute; top: -100px; right: -100px;
-  width: 320px; height: 320px;
-  background: radial-gradient(circle, rgba(176,110,243,0.1), transparent 70%);
-  pointer-events: none;
+.player-top {
+  padding: 1.8rem 2rem 0;
+  display: flex; align-items: flex-start; justify-content: space-between;
 }
 
-.pc-top {
-  display: flex; align-items: flex-start;
-  justify-content: space-between; gap: 1rem;
+.pt-title {
+  font-family: 'Syne', sans-serif; font-size: 1.1rem;
+  font-weight: 700; margin-bottom: 0.2rem;
 }
+.pt-sub { font-size: 0.78rem; color: var(--muted); }
 
-.pc-meta {}
-.pc-track-title {
+.pt-state {
   font-family: 'Syne', sans-serif;
-  font-size: 1.25rem; font-weight: 800;
-  letter-spacing: -0.01em; margin-bottom: 0.2rem;
+  font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 0.22rem 0.7rem; border-radius: 2px;
+  border: 1px solid; transition: all 0.4s;
+  white-space: nowrap; margin-top: 0.15rem;
 }
-.pc-track-sub { font-size: 0.82rem; color: var(--muted); }
+.state-b { color: var(--cfb); border-color: rgba(34,211,238,0.3); background: rgba(34,211,238,0.05); }
+.state-a { color: var(--cfa); border-color: rgba(168,85,247,0.3); background: rgba(168,85,247,0.05); }
 
-.pc-badge {
-  font-size: 0.68rem; font-weight: 600;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  padding: 0.28rem 0.85rem; border-radius: 100px;
-  border: 1px solid; white-space: nowrap;
-  transition: all 0.3s; margin-top: 0.2rem;
-}
-.badge-b { color: var(--cfb); border-color: rgba(34,211,238,0.35); background: rgba(34,211,238,0.07); }
-.badge-a { color: var(--cfa); border-color: rgba(176,110,243,0.35); background: rgba(176,110,243,0.07); }
-
-/* Waveform */
+/* waveform */
 .wf-wrap {
-  position: relative; height: 88px;
-  cursor: pointer; border-radius: 14px;
-  overflow: hidden; background: var(--bg2);
-  border: 1px solid rgba(255,255,255,0.04);
+  position: relative; height: 100px; cursor: pointer;
+  margin: 1.5rem 2rem 0; border-radius: 3px; overflow: hidden;
+  background: var(--bg2);
 }
 .wf-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-.wf-progress {
-  position: absolute; top: 0; bottom: 0; width: 2px;
-  background: rgba(255,255,255,0.7);
-  pointer-events: none; left: 0%;
-  box-shadow: 0 0 10px rgba(255,255,255,0.3);
-  transition: left 0.05s linear;
+.wf-playhead {
+  position: absolute; top: 0; bottom: 0; width: 1px;
+  background: rgba(255,255,255,0.5); pointer-events: none; left: 0%;
+  box-shadow: 0 0 8px rgba(255,255,255,0.2);
 }
 .wf-time {
-  position: absolute; bottom: 7px; right: 10px;
-  font-size: 0.7rem; font-family: 'Syne', sans-serif;
+  position: absolute; bottom: 6px; right: 8px;
+  font-size: 0.65rem; font-family: 'Syne', sans-serif;
   color: var(--muted); letter-spacing: 0.04em;
 }
 
-/* Transport */
-.transport {
+/* transport row */
+.transport-row {
   display: flex; align-items: center;
-  justify-content: center; gap: 1.2rem;
+  justify-content: center; gap: 1rem;
+  padding: 1.4rem 2rem;
 }
 
 .btn-play {
-  width: 56px; height: 56px; border-radius: 50%; border: none;
-  background: var(--grad); color: #fff; font-size: 1.25rem;
+  width: 48px; height: 48px; border-radius: 50%; border: none;
+  background: var(--grad); color: #fff; font-size: 1.1rem;
   cursor: pointer; display: flex; align-items: center; justify-content: center;
   transition: transform 0.15s, opacity 0.15s;
-  box-shadow: 0 4px 22px rgba(176,110,243,0.4);
+  box-shadow: 0 4px 20px rgba(168,85,247,0.3);
 }
 .btn-play:hover { transform: scale(1.07); }
-.btn-play:active { transform: scale(0.95); }
+.btn-play:active { transform: scale(0.94); }
 
 .btn-aux {
-  width: 38px; height: 38px; border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.09); background: transparent;
-  color: var(--muted); font-size: 1rem; cursor: pointer;
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid var(--dim); background: transparent;
+  color: var(--muted); font-size: 0.9rem; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s;
+  transition: all 0.2s; font-family: 'DM Sans', sans-serif;
 }
-.btn-aux:hover { color: var(--text); border-color: rgba(255,255,255,0.22); }
+.btn-aux:hover { color: var(--text); border-color: rgba(168,85,247,0.3); }
 
-/* VU */
-.vu-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.vu-meter { display: flex; flex-direction: column; gap: 0.45rem; }
-.vu-lbl {
-  font-size: 0.67rem; font-weight: 600;
-  letter-spacing: 0.12em; text-transform: uppercase;
+/* crossfader section */
+.cf-section {
+  padding: 0 2rem 2rem;
+  display: flex; flex-direction: column; gap: 0.9rem;
 }
-.vu-lbl-b { color: rgba(34,211,238,0.65); }
-.vu-lbl-a { color: rgba(176,110,243,0.65); }
-.vu-track { height: 5px; background: var(--bg2); border-radius: 3px; overflow: hidden; }
-.vu-fill { height: 100%; border-radius: 3px; width: 0%; transition: width 0.08s; }
-.vu-fill-b { background: linear-gradient(90deg, #0891b2, #22d3ee); }
-.vu-fill-a { background: linear-gradient(90deg, #7c3aed, #b06ef3); }
 
-/* Crossfader */
-.cf-section { display: flex; flex-direction: column; gap: 0.8rem; }
-.cf-labels { display: flex; justify-content: space-between; align-items: center; }
-.cf-lbl { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
-.cf-lbl-b { color: var(--cfb); }
-.cf-lbl-a { color: var(--cfa); }
-.cf-mid {
-  font-size: 0.7rem; color: var(--muted);
-  letter-spacing: 0.06em; text-transform: uppercase;
-  font-family: 'Syne', sans-serif;
+.cf-labels {
+  display: flex; justify-content: space-between; align-items: center;
+}
+.cf-lbl {
+  font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+}
+.cf-lbl-b { color: rgba(34,211,238,0.6); }
+.cf-lbl-a { color: rgba(168,85,247,0.6); }
+.cf-val {
+  font-family: 'Syne', sans-serif; font-size: 0.68rem;
+  color: var(--muted); letter-spacing: 0.06em;
 }
 
 .cf-wrap {
-  position: relative; height: 52px; display: flex; align-items: center;
+  position: relative; height: 44px; display: flex; align-items: center;
 }
-.cf-track {
-  position: absolute; left: 0; right: 0;
-  height: 5px; border-radius: 3px; background: var(--bg2);
+.cf-track-bg {
+  position: absolute; left: 0; right: 0; height: 3px;
+  border-radius: 2px; overflow: hidden; background: var(--bg2);
 }
-.cf-fill {
-  position: absolute; top: 0; bottom: 0; border-radius: 3px;
+.cf-track-fill {
+  height: 100%; width: 100%; border-radius: 2px;
+  background: var(--grad-cf, linear-gradient(90deg, var(--cfb), var(--cfa)));
+  opacity: 0.4;
 }
 .cf-input {
   position: absolute; left: 0; right: 0; width: 100%;
-  height: 52px; opacity: 0; cursor: grab; margin: 0; z-index: 10;
+  height: 44px; opacity: 0; cursor: grab; margin: 0; z-index: 10;
   -webkit-appearance: none;
 }
 .cf-input:active { cursor: grabbing; }
 .cf-thumb {
-  position: absolute; width: 26px; height: 26px; border-radius: 50%;
-  background: var(--bg3); border: 2px solid rgba(255,255,255,0.7);
-  box-shadow: 0 2px 14px rgba(0,0,0,0.5);
+  position: absolute; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--bg3); border: 1.5px solid rgba(255,255,255,0.5);
   top: 50%; transform: translate(-50%, -50%);
-  pointer-events: none;
-  display: flex; align-items: center; justify-content: center;
+  pointer-events: none; transition: border-color 0.3s, box-shadow 0.3s;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.5);
 }
-.cf-thumb-icon { font-size: 0.6rem; color: var(--muted); }
 
-/* Upload row */
-.upload-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
-.upbtn {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 0.35rem; padding: 1rem; border-radius: 14px; border: 1px dashed;
-  cursor: pointer; transition: all 0.2s; background: transparent; color: inherit;
-  font-family: 'DM Sans', sans-serif; text-align: center;
+/* VU minimal */
+.vu-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;
+  padding: 0 2rem;
 }
-.upbtn-b { border-color: rgba(34,211,238,0.28); color: rgba(34,211,238,0.75); }
-.upbtn-b:hover { background: rgba(34,211,238,0.05); border-color: rgba(34,211,238,0.5); }
-.upbtn-a { border-color: rgba(176,110,243,0.28); color: rgba(176,110,243,0.75); }
-.upbtn-a:hover { background: rgba(176,110,243,0.05); border-color: rgba(176,110,243,0.5); }
-.upbtn-icon { font-size: 1.3rem; }
-.upbtn-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
-.upbtn-sub { font-size: 0.68rem; opacity: 0.55; }
-input[type="file"] { display: none; }
+.vu-m { display: flex; flex-direction: column; gap: 0.3rem; }
+.vu-l { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+.vu-l-b { color: rgba(34,211,238,0.5); }
+.vu-l-a { color: rgba(168,85,247,0.5); }
+.vu-t { height: 2px; background: var(--bg2); border-radius: 2px; overflow: hidden; }
+.vu-f { height: 100%; width: 0%; transition: width 0.08s; border-radius: 2px; }
+.vu-f-b { background: var(--cfb); }
+.vu-f-a { background: var(--cfa); }
 
-.pc-hint {
-  text-align: center; font-size: 0.75rem; color: var(--muted);
-  background: rgba(255,255,255,0.02); border-radius: 10px; padding: 0.6rem;
-  border: 1px solid rgba(255,255,255,0.04);
-}
-.pc-hint strong { color: var(--p1); }
+/* divider */
+.player-divider { height: 1px; background: var(--dim); margin: 1.4rem 0; opacity: 0.4; }
 
-/* ─── TESTIMONIALS ─── */
+/* ── TESTIMONIALS ── */
 #testimonials { background: var(--bg2); }
 
-.test-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.4rem; max-width: 1100px;
+.test-list { display: flex; flex-direction: column; gap: 1px; }
+
+.test-item {
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--dim);
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 2rem; align-items: start;
+  transition: background 0.2s;
+}
+.test-item:first-child { border-top: 1px solid var(--dim); }
+
+.test-quote {
+  font-size: 0.95rem; color: var(--muted); font-style: italic;
+  line-height: 1.9; margin-bottom: 1rem; font-weight: 300;
 }
 
-.test-card {
-  background: var(--bg3); border: 1px solid rgba(255,255,255,0.05);
-  border-radius: 22px; padding: 2rem;
-  transition: border-color 0.25s;
-}
-.test-card:hover { border-color: rgba(176,110,243,0.22); }
-
-.qmark {
-  font-family: 'Syne', sans-serif; font-size: 4.5rem;
-  line-height: 0.75; display: block; margin-bottom: 0.9rem;
-  background: var(--grad);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-}
-
-.stars { display: flex; gap: 2px; margin-bottom: 0.9rem; }
-.star { color: var(--gold); font-size: 0.82rem; }
-
-.test-text {
-  color: var(--muted); font-size: 0.9rem;
-  line-height: 1.9; margin-bottom: 1.4rem; font-style: italic;
-}
-
-.test-author { display: flex; align-items: center; gap: 0.75rem; }
+.test-author-row { display: flex; align-items: center; gap: 0.6rem; }
 .test-av {
-  width: 40px; height: 40px; border-radius: 50%;
+  width: 32px; height: 32px; border-radius: 50%;
   background: var(--grad); display: flex; align-items: center; justify-content: center;
   font-family: 'Syne', sans-serif; font-weight: 800;
-  font-size: 0.85rem; color: #fff; flex-shrink: 0;
+  font-size: 0.72rem; color: #fff; flex-shrink: 0; opacity: 0.8;
 }
-.test-name { font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700; }
-.test-role { font-size: 0.75rem; color: var(--muted); }
+.test-name { font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 700; }
+.test-role { font-size: 0.72rem; color: var(--muted); }
 
-/* ─── CONTACT ─── */
+.test-stars { display: flex; gap: 2px; justify-content: flex-end; }
+.star { color: var(--gold); font-size: 0.75rem; }
+
+/* ── CONTACT ── */
 #contact { background: var(--bg); }
 
-.contact-wrap { max-width: 680px; }
 .contact-sub {
-  color: var(--muted); margin-bottom: 2.8rem;
-  font-size: 1rem; line-height: 1.9; max-width: 520px;
+  color: var(--muted); margin-bottom: 3rem;
+  font-size: 0.9rem; line-height: 1.9; font-weight: 300;
+  max-width: 460px;
 }
 
-.cf-form { display: flex; flex-direction: column; gap: 1.1rem; }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
-.form-g { display: flex; flex-direction: column; gap: 0.45rem; }
+.cf-form { display: flex; flex-direction: column; gap: 0; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; }
+.form-g { display: flex; flex-direction: column; }
 
 label {
-  font-size: 0.72rem; font-weight: 500;
-  letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+  font-size: 0.65rem; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted); padding: 1rem 1.2rem 0.4rem;
+  border: 1px solid var(--dim); border-bottom: none;
+  background: var(--bg3);
 }
 
 input, textarea, select {
-  background: var(--bg3); border: 1px solid rgba(255,255,255,0.07);
+  background: var(--bg3); border: 1px solid var(--dim);
+  border-top: none;
   color: var(--text); font-family: 'DM Sans', sans-serif;
-  font-size: 0.92rem; padding: 0.82rem 1rem;
-  border-radius: 12px; outline: none; transition: border-color 0.2s, box-shadow 0.2s;
-  width: 100%;
+  font-size: 0.9rem; padding: 0.6rem 1.2rem 1rem;
+  outline: none; transition: border-color 0.2s; width: 100%;
+  border-radius: 0;
 }
 input:focus, textarea:focus, select:focus {
-  border-color: rgba(176,110,243,0.45);
-  box-shadow: 0 0 0 3px rgba(176,110,243,0.07);
+  border-color: rgba(168,85,247,0.4); z-index: 1; position: relative;
 }
 select option { background: var(--bg3); }
-textarea { min-height: 130px; resize: vertical; }
+textarea { min-height: 110px; resize: vertical; }
+
+.form-field-full label { border-right: 1px solid var(--dim); }
+.form-field-full input,
+.form-field-full textarea,
+.form-field-full select { border-right: 1px solid var(--dim); }
+
+.form-row .form-g:first-child label,
+.form-row .form-g:first-child input { border-right: none; }
 
 .btn-send {
-  align-self: flex-start; padding: 1rem 2.4rem;
-  background: var(--grad); color: #fff; border: none;
+  align-self: flex-start; margin-top: 1.5rem;
+  padding: 0.9rem 2rem; background: var(--grad); color: #fff; border: none;
   font-family: 'Syne', sans-serif; font-weight: 700;
-  font-size: 0.9rem; letter-spacing: 0.05em;
-  border-radius: 50px; cursor: pointer;
-  transition: opacity 0.2s, transform 0.2s;
-  box-shadow: 0 4px 20px rgba(176,110,243,0.3);
+  font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
+  border-radius: 3px; cursor: pointer; transition: opacity 0.2s, transform 0.2s;
 }
-.btn-send:hover { opacity: 0.88; transform: translateY(-2px); }
+.btn-send:hover { opacity: 0.85; transform: translateY(-2px); }
 
-.contact-alts { display: flex; gap: 1.8rem; margin-top: 2.2rem; flex-wrap: wrap; }
-.contact-alt {
-  display: flex; align-items: center; gap: 0.55rem;
-  color: var(--muted); text-decoration: none; font-size: 0.88rem;
+.contact-alts {
+  display: flex; gap: 2rem; margin-top: 2.5rem;
+  padding-top: 2rem; border-top: 1px solid var(--dim);
+  flex-wrap: wrap;
+}
+.ca {
+  display: flex; align-items: center; gap: 0.5rem;
+  color: var(--muted); text-decoration: none; font-size: 0.85rem;
   transition: color 0.2s;
 }
-.contact-alt:hover { color: var(--p1); }
-.ca-icon {
-  width: 34px; height: 34px; border-radius: 50%;
-  border: 1px solid rgba(176,110,243,0.2);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.9rem; transition: border-color 0.2s;
-}
-.contact-alt:hover .ca-icon { border-color: rgba(176,110,243,0.5); }
+.ca:hover { color: var(--p1); }
+.ca-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--dim); transition: background 0.2s; }
+.ca:hover .ca-dot { background: var(--p1); }
 
-/* ─── FOOTER ─── */
+/* ── FOOTER ── */
 footer {
-  background: var(--bg2); border-top: 1px solid rgba(255,255,255,0.04);
-  padding: 2rem 3.5rem; display: flex;
-  justify-content: space-between; align-items: center;
-  font-size: 0.8rem; color: var(--muted);
+  background: var(--bg2); border-top: 1px solid var(--dim);
+  padding: 2rem 0;
+}
+.footer-inner {
+  max-width: var(--max); margin: 0 auto; padding: 0 2rem;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 0.75rem; color: var(--muted);
 }
 .f-logo {
   font-family: 'Syne', sans-serif; font-weight: 800;
@@ -547,21 +484,22 @@ footer {
   -webkit-text-fill-color: transparent; background-clip: text;
 }
 
-/* ─── REVEAL ─── */
-.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+/* ── REVEAL ── */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
-/* ─── RESPONSIVE ─── */
-@media (max-width: 820px) {
-  nav { padding: 1rem 1.5rem; }
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
   .nav-links { gap: 1.2rem; }
-  section { padding: 5rem 1.5rem; }
-  #hero { padding: 7rem 1.5rem 3rem; }
-  .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-  .player-card { padding: 1.5rem 1.5rem; }
-  .form-row { grid-template-columns: 1fr; }
-  footer { flex-direction: column; gap: 0.8rem; text-align: center; }
-  .stats { gap: 1.5rem; }
+  section { padding: 5rem 0; }
+  .about-split { grid-template-columns: 1fr; gap: 2rem; }
+  .ek-mark { font-size: 3.5rem; }
+  .form-row { grid-template-columns: 1fr; gap: 0; }
+  .form-row .form-g:first-child label,
+  .form-row .form-g:first-child input { border-right: 1px solid var(--dim); }
+  .footer-inner { flex-direction: column; gap: 0.6rem; text-align: center; }
+  .player-top, .cf-section, .wf-wrap, .transport-row, .vu-row { padding-left: 1.2rem; padding-right: 1.2rem; margin-left: 0; margin-right: 0; }
+  .wf-wrap { margin-left: 1.2rem; margin-right: 1.2rem; }
 }
 </style>
 </head>
@@ -569,171 +507,165 @@ footer {
 
 <!-- NAV -->
 <nav>
-  <a href="#hero" class="nav-logo">Eliáš Kajan</a>
-  <ul class="nav-links">
-    <li><a href="#about">O mne</a></li>
-    <li><a href="#mixing">Práce</a></li>
-    <li><a href="#testimonials">Referencie</a></li>
-    <li><a href="#contact">Kontakt</a></li>
-  </ul>
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">Eliáš Kajan</a>
+    <ul class="nav-links">
+      <li><a href="#about">O mne</a></li>
+      <li><a href="#mixing">Práce</a></li>
+      <li><a href="#testimonials">Referencie</a></li>
+      <li><a href="#contact">Kontakt</a></li>
+    </ul>
+  </div>
 </nav>
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-bg">
+  <div class="hero-orbs">
     <div class="orb orb1"></div>
     <div class="orb orb2"></div>
     <div class="orb orb3"></div>
   </div>
-  <div class="hero-content">
-    <div class="eyebrow">Mixing Engineer · Slovakia</div>
-    <h1>Zvuk, ktorý<br><span class="gt">cítiš.</span></h1>
-    <p class="hero-sub">Pomáham kapelám a umelcom dostať ich hudbu na profesionálnu úroveň — mix, ktorý znie tak, ako ste ho cítili pri skladaní.</p>
-    <div class="ctas">
-      <a href="#mixing" class="btn-p">Počuť ukážky</a>
-      <a href="#contact" class="btn-o">Kontaktovať</a>
+  <div class="wrap">
+    <div class="hero-content">
+      <div class="eyebrow">Mixing Engineer · Slovakia</div>
+      <h1>Zvuk,<br>ktorý<br><span class="gt">cítiš.</span></h1>
+      <p class="hero-sub">Pomáham kapelám a umelcom dostať ich hudbu na profesionálnu úroveň — mix, ktorý znie tak, ako ste ho cítili pri skladaní.</p>
+      <div class="ctas">
+        <a href="#mixing" class="btn-p">Počuť ukážky</a>
+        <a href="#contact" class="btn-o">Kontaktovať</a>
+      </div>
     </div>
   </div>
-  <div class="scroll-hint"><span class="scroll-arrow">↓</span>scroll</div>
+  <div class="hero-rule">
+    <div class="hero-rule-line"></div>
+    <div class="hero-rule-dot"></div>
+    <div class="hero-rule-line"></div>
+  </div>
 </section>
 
 <!-- ABOUT -->
 <section id="about">
-  <div class="about-grid reveal">
-    <div class="about-visual">
-      <div class="av-ring"></div>
-      <div class="av-inner">
-        <span class="av-monogram">EK</span>
-        <span class="av-title">Mixing Engineer</span>
-        <div class="daw-bars" id="dawBars"></div>
+  <div class="wrap">
+    <div class="sec-label">O mne</div>
+    <div class="about-split reveal">
+      <div class="about-left">
+        <span class="ek-mark">EK</span>
+        <div class="daw-col" id="dawCol"></div>
       </div>
-    </div>
-    <div>
-      <div class="sec-label">O mne</div>
-      <h2>Milujem zvuk v každej jeho podobe.</h2>
-      <p class="about-p">Som mixing engineer z Nitry. Pracujem v Pro Tools a špecializujem sa na nahrávanie a mix slovenských kapiel — od post-produkcie štúdiových nahrávok až po live sound.</p>
-      <p class="about-p">Každý projekt beriem ako výzvu dostať z hudby to najlepšie. Nezáleží, či je to rock, elektronika alebo akustika — mix musí mať charakter.</p>
-      <p class="about-p">Momentálne otvorený pre nové projekty online aj lokálne.</p>
-      <div class="stats">
-        <div class="stat"><span class="stat-n">PT</span><span class="stat-l">Pro Tools</span></div>
-        <div class="stat"><span class="stat-n">SK</span><span class="stat-l">Lokálne kapely</span></div>
-        <div class="stat"><span class="stat-n">∞</span><span class="stat-l">Pasión k zvuku</span></div>
+      <div class="about-right">
+        <h2>Milujem zvuk<br>v každej<br><span class="gt">jeho podobe.</span></h2>
+        <p class="about-p">Som mixing engineer z Nitry. Pracujem v Pro Tools a špecializujem sa na nahrávanie a mix slovenských kapiel — od post-produkcie štúdiových nahrávok až po live sound.</p>
+        <p class="about-p">Každý projekt beriem ako výzvu dostať z hudby to najlepšie. Nezáleží, či je to rock, elektronika alebo akustika — mix musí mať charakter.</p>
+        <p class="about-p">Momentálne otvorený pre nové projekty online aj lokálne.</p>
+        <div class="stats">
+          <div class="stat"><span class="stat-n">PT</span><span class="stat-l">Pro Tools</span></div>
+          <div class="stat"><span class="stat-n">SK</span><span class="stat-l">Lokálne</span></div>
+          <div class="stat"><span class="stat-n">∞</span><span class="stat-l">Pasión</span></div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- MIXING / BEFORE-AFTER -->
+<!-- MIXING -->
 <section id="mixing">
-  <div class="sec-label">Portfólio</div>
-  <h2>Počuj <span class="gt">rozdiel.</span></h2>
-  <p class="mixing-intro">Nahraj before &amp; after súbory a posunom slidera porovnaj surový záznam s finálnym mixom — v reálnom čase, priamo v prehliadači.</p>
+  <div class="wrap">
+    <div class="sec-label">Portfólio</div>
+    <h2>Počuj <span class="gt">rozdiel.</span></h2>
+    <p class="mixing-sub">Posunom slidera porovnaj surový záznam s finálnym mixom — v reálnom čase, priamo v prehliadači.</p>
 
-  <div class="track-selector reveal" id="trackSelector"></div>
+    <!-- tabs -->
+    <div class="track-tabs reveal" id="trackTabs"></div>
 
-  <div class="player-card reveal">
-    <div class="pc-glow"></div>
-
-    <!-- top -->
-    <div class="pc-top">
-      <div class="pc-meta">
-        <div class="pc-track-title" id="pcTitle">Kapela A — Rock Single</div>
-        <div class="pc-track-sub" id="pcSub">Rock / Indie · Mix by Eliáš Kajan</div>
+    <!-- player -->
+    <div class="player reveal">
+      <div class="player-top">
+        <div>
+          <div class="pt-title" id="ptTitle">Kapela A — Rock Single</div>
+          <div class="pt-sub" id="ptSub">Rock / Indie · Mix by Eliáš Kajan</div>
+        </div>
+        <div class="pt-state state-b" id="ptState">RAW</div>
       </div>
-      <div class="pc-badge badge-b" id="pcBadge">Before</div>
-    </div>
 
-    <!-- waveform -->
-    <div class="wf-wrap" id="wfWrap">
-      <canvas class="wf-canvas" id="wfCanvas"></canvas>
-      <div class="wf-progress" id="wfProgress"></div>
-      <div class="wf-time" id="wfTime">0:00 / 0:00</div>
-    </div>
-
-    <!-- transport -->
-    <div class="transport">
-      <button class="btn-aux" onclick="restartAudio()" title="Restart">↺</button>
-      <button class="btn-play" id="playBtn" onclick="togglePlay()">▶</button>
-      <button class="btn-aux" title="Nahraj súbory" onclick="document.getElementById('uploadRow').scrollIntoView({behavior:'smooth'})">⬆</button>
-    </div>
-
-    <!-- VU -->
-    <div class="vu-row">
-      <div class="vu-meter">
-        <div class="vu-lbl vu-lbl-b">Before</div>
-        <div class="vu-track"><div class="vu-fill vu-fill-b" id="vuB"></div></div>
+      <!-- waveform -->
+      <div class="wf-wrap" id="wfWrap">
+        <canvas class="wf-canvas" id="wfCanvas"></canvas>
+        <div class="wf-playhead" id="wfPlayhead"></div>
+        <div class="wf-time" id="wfTime">0:00 / 0:00</div>
       </div>
-      <div class="vu-meter">
-        <div class="vu-lbl vu-lbl-a">After</div>
-        <div class="vu-track"><div class="vu-fill vu-fill-a" id="vuA"></div></div>
+
+      <!-- transport -->
+      <div class="transport-row">
+        <button class="btn-aux" onclick="restartAudio()">↺</button>
+        <button class="btn-play" id="playBtn" onclick="togglePlay()">▶</button>
+        <button class="btn-aux" style="font-size:0.7rem;letter-spacing:0.04em;width:auto;padding:0 0.8rem;border-radius:3px;" onclick="skipTo(0)">0:00</button>
+      </div>
+
+      <div class="vu-row">
+        <div class="vu-m">
+          <div class="vu-l vu-l-b">Raw</div>
+          <div class="vu-t"><div class="vu-f vu-f-b" id="vuB"></div></div>
+        </div>
+        <div class="vu-m">
+          <div class="vu-l vu-l-a">Mix</div>
+          <div class="vu-t"><div class="vu-f vu-f-a" id="vuA"></div></div>
+        </div>
+      </div>
+
+      <div class="player-divider"></div>
+
+      <!-- crossfader -->
+      <div class="cf-section">
+        <div class="cf-labels">
+          <span class="cf-lbl cf-lbl-b">Raw</span>
+          <span class="cf-val" id="cfVal">50 / 50</span>
+          <span class="cf-lbl cf-lbl-a">Mix</span>
+        </div>
+        <div class="cf-wrap">
+          <div class="cf-track-bg"><div class="cf-track-fill"></div></div>
+          <input type="range" class="cf-input" id="cfSlider" min="0" max="100" value="50">
+          <div class="cf-thumb" id="cfThumb" style="left:50%"></div>
+        </div>
       </div>
     </div>
-
-    <!-- Crossfader -->
-    <div class="cf-section">
-      <div class="cf-labels">
-        <span class="cf-lbl cf-lbl-b">Before</span>
-        <span class="cf-mid" id="cfMid">50 / 50</span>
-        <span class="cf-lbl cf-lbl-a">After</span>
-      </div>
-      <div class="cf-wrap">
-        <div class="cf-track"><div class="cf-fill" id="cfFill"></div></div>
-        <input type="range" class="cf-input" id="cfSlider" min="0" max="100" value="50">
-        <div class="cf-thumb" id="cfThumb" style="left:50%"><span class="cf-thumb-icon">⇔</span></div>
-      </div>
-    </div>
-
-    <!-- Upload -->
-    <div class="upload-row" id="uploadRow">
-      <label class="upbtn upbtn-b" for="fileBefore">
-        <span class="upbtn-icon">◎</span>
-        <span class="upbtn-label">Before</span>
-        <span class="upbtn-sub" id="nameB">Nahraj audio súbor</span>
-      </label>
-      <input type="file" id="fileBefore" accept="audio/*" onchange="loadFile('before',this)">
-
-      <label class="upbtn upbtn-a" for="fileAfter">
-        <span class="upbtn-icon">◎</span>
-        <span class="upbtn-label">After</span>
-        <span class="upbtn-sub" id="nameA">Nahraj audio súbor</span>
-      </label>
-      <input type="file" id="fileAfter" accept="audio/*" onchange="loadFile('after',this)">
-    </div>
-
-    <div class="pc-hint">Slider mieša <strong>Before</strong> (raw) a <strong>After</strong> (finálny mix) v reálnom čase pomocou equal-power crossfade.</div>
   </div>
 </section>
 
 <!-- TESTIMONIALS -->
 <section id="testimonials">
-  <div class="sec-label">Referencie</div>
-  <h2>Čo hovoria <span class="gt">klienti.</span></h2>
-  <div class="test-grid reveal">
-    <div class="test-card">
-      <span class="qmark">"</span>
-      <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
-      <p class="test-text">Eliáš pochopil náš zvuk hneď od prvého posluchu. Mix EP znel presne tak, ako sme chceli — energicky, čisto, s charakterom.</p>
-      <div class="test-author">
-        <div class="test-av">JN</div>
-        <div><div class="test-name">Jakub Novák</div><div class="test-role">Gitarista, Kapela A</div></div>
+  <div class="wrap">
+    <div class="sec-label">Referencie</div>
+    <h2>Čo hovoria <span class="gt">klienti.</span></h2>
+    <div class="test-list reveal">
+      <div class="test-item">
+        <div>
+          <p class="test-quote">Eliáš pochopil náš zvuk hneď od prvého posluchu. Mix EP znel presne tak, ako sme chceli — energicky, čisto, s charakterom.</p>
+          <div class="test-author-row">
+            <div class="test-av">JN</div>
+            <div><div class="test-name">Jakub Novák</div><div class="test-role">Gitarista, Kapela A</div></div>
+          </div>
+        </div>
+        <div class="test-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
       </div>
-    </div>
-    <div class="test-card">
-      <span class="qmark">"</span>
-      <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
-      <p class="test-text">Spolupráca bola profesionálna a rýchla. Revízie boli vždy zapracované presne podľa našich požiadaviek. Odporúčam každej kapele.</p>
-      <div class="test-author">
-        <div class="test-av">MK</div>
-        <div><div class="test-name">Mária Kollárová</div><div class="test-role">Speváčka, Projekt B</div></div>
+      <div class="test-item">
+        <div>
+          <p class="test-quote">Spolupráca bola profesionálna a rýchla. Revízie boli vždy zapracované presne podľa požiadaviek. Odporúčam každej kapele.</p>
+          <div class="test-author-row">
+            <div class="test-av">MK</div>
+            <div><div class="test-name">Mária Kollárová</div><div class="test-role">Speváčka, Projekt B</div></div>
+          </div>
+        </div>
+        <div class="test-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
       </div>
-    </div>
-    <div class="test-card">
-      <span class="qmark">"</span>
-      <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
-      <p class="test-text">Výsledok predčil všetky očakávania. Nahrávky z live koncertu dostali nový život. Určite budeme pokračovať na ďalšom albume.</p>
-      <div class="test-author">
-        <div class="test-av">TP</div>
-        <div><div class="test-name">Tomáš Polák</div><div class="test-role">Bubeník, Kapela C</div></div>
+      <div class="test-item">
+        <div>
+          <p class="test-quote">Výsledok predčil všetky očakávania. Nahrávky z live koncertu dostali nový život. Určite budeme pokračovať na ďalšom albume.</p>
+          <div class="test-author-row">
+            <div class="test-av">TP</div>
+            <div><div class="test-name">Tomáš Polák</div><div class="test-role">Bubeník, Kapela C</div></div>
+          </div>
+        </div>
+        <div class="test-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
       </div>
     </div>
   </div>
@@ -741,142 +673,126 @@ footer {
 
 <!-- CONTACT -->
 <section id="contact">
-  <div class="contact-wrap reveal">
-    <div class="sec-label">Kontakt</div>
-    <h2>Začnime <span class="gt">pracovať.</span></h2>
-    <p class="contact-sub">Máš projekt, kapelu, alebo len otázku? Napíš mi. Odpoviem zvyčajne do 24 hodín.</p>
-    <form class="cf-form" onsubmit="sendForm(event)">
-      <div class="form-row">
-        <div class="form-g"><label for="fname">Meno</label><input type="text" id="fname" placeholder="Tvoje meno" required></div>
-        <div class="form-g"><label for="femail">Email</label><input type="email" id="femail" placeholder="tvoj@email.com" required></div>
+  <div class="wrap">
+    <div class="contact-wrap reveal">
+      <div class="sec-label">Kontakt</div>
+      <h2>Začnime <span class="gt">pracovať.</span></h2>
+      <p class="contact-sub">Máš projekt, kapelu, alebo len otázku? Napíš mi. Odpoviem zvyčajne do 24 hodín.</p>
+      <form class="cf-form" onsubmit="sendForm(event)">
+        <div class="form-row">
+          <div class="form-g">
+            <label for="fname">Meno</label>
+            <input type="text" id="fname" placeholder="Tvoje meno" required>
+          </div>
+          <div class="form-g">
+            <label for="femail">Email</label>
+            <input type="email" id="femail" placeholder="tvoj@email.com" required>
+          </div>
+        </div>
+        <div class="form-g form-field-full">
+          <label for="fservice">Čo hľadáš?</label>
+          <select id="fservice">
+            <option value="">— Vyber službu —</option>
+            <option>Mixing (online)</option>
+            <option>Mixing + Mastering</option>
+            <option>Nahrávanie kapely</option>
+            <option>Live sound</option>
+            <option>Konzultácia</option>
+          </select>
+        </div>
+        <div class="form-g form-field-full">
+          <label for="fmsg">Správa</label>
+          <textarea id="fmsg" placeholder="Povedz mi o projekte — žáner, počet skladieb, deadline..."></textarea>
+        </div>
+        <button type="submit" class="btn-send" id="sendBtn">Odoslať →</button>
+      </form>
+      <div class="contact-alts">
+        <a href="mailto:elias@kajan.sk" class="ca"><span class="ca-dot"></span>elias@kajan.sk</a>
+        <a href="https://instagram.com" class="ca" target="_blank"><span class="ca-dot"></span>Instagram</a>
+        <a href="https://soundcloud.com" class="ca" target="_blank"><span class="ca-dot"></span>SoundCloud</a>
       </div>
-      <div class="form-g">
-        <label for="fservice">Čo hľadáš?</label>
-        <select id="fservice">
-          <option value="">— Vyber službu —</option>
-          <option>Mixing (online)</option>
-          <option>Mixing + Mastering</option>
-          <option>Nahrávanie kapely</option>
-          <option>Live sound</option>
-          <option>Konzultácia</option>
-        </select>
-      </div>
-      <div class="form-g"><label for="fmsg">Správa</label><textarea id="fmsg" placeholder="Povedz mi o projekte — žáner, počet skladieb, deadline..."></textarea></div>
-      <button type="submit" class="btn-send" id="sendBtn">Odoslať správu →</button>
-    </form>
-    <div class="contact-alts">
-      <a href="mailto:elias@kajan.sk" class="contact-alt"><span class="ca-icon">✉</span>elias@kajan.sk</a>
-      <a href="https://instagram.com" class="contact-alt" target="_blank"><span class="ca-icon">◎</span>Instagram</a>
-      <a href="https://soundcloud.com" class="contact-alt" target="_blank"><span class="ca-icon">♫</span>SoundCloud</a>
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <span class="f-logo">Eliáš Kajan</span>
-  <span>© 2025 · Mixing Engineer · Slovakia</span>
-  <span>Made with 🎚</span>
+  <div class="footer-inner">
+    <span class="f-logo">Eliáš Kajan</span>
+    <span>© 2025 · Mixing Engineer · Slovakia</span>
+  </div>
 </footer>
 
 <script>
-/* ── TRACK DATA ─────────────────────────────────────────────────────── */
-// Keď budeš mať reálne súbory, daj ich do priečinka /audio/ a nastav cesty tu:
+/* ── TRACKS ─────────────────────────────────────────────────────────── */
 const TRACKS = [
-  { title: 'Kapela A — Rock Single',   genre: 'Rock / Indie',       before: '/audio/kapela-a-before.mp3', after: '/audio/kapela-a-after.mp3' },
-  { title: 'Projekt B — Ambient',      genre: 'Electronic / Ambient', before: '/audio/projekt-b-before.mp3', after: '/audio/projekt-b-after.mp3' },
-  { title: 'Kapela C — Folk Album',    genre: 'Folk / Akustika',    before: '/audio/kapela-c-before.mp3', after: '/audio/kapela-c-after.mp3' },
+  { title:'Kapela A — Rock Single',  genre:'Rock / Indie',        before:'/audio/kapela-a-before.mp3',  after:'/audio/kapela-a-after.mp3'  },
+  { title:'Projekt B — Ambient',     genre:'Electronic / Ambient', before:'/audio/projekt-b-before.mp3', after:'/audio/projekt-b-after.mp3' },
+  { title:'Kapela C — Folk Album',   genre:'Folk / Akustika',      before:'/audio/kapela-c-before.mp3',  after:'/audio/kapela-c-after.mp3'  },
 ];
+let activeTi = 0;
 
-let currentTrack = 0;
-
-/* ── DAW BARS ───────────────────────────────────────────────────────── */
-const dawEl = document.getElementById('dawBars');
-[0.4,0.7,1,0.85,0.6,0.9,0.55,0.75,1,0.65,0.8,0.5].forEach((s,i) => {
-  const b = document.createElement('div');
-  b.className = 'daw-bar';
-  b.style.cssText = `height:${s*100}%;--s:${(0.2+s*0.8).toFixed(2)};animation-delay:${(i*0.13).toFixed(2)}s;animation-duration:${(1.2+s*0.8).toFixed(2)}s`;
-  dawEl.appendChild(b);
-});
-
-/* ── TRACK SELECTOR ─────────────────────────────────────────────────── */
-const sel = document.getElementById('trackSelector');
-TRACKS.forEach((t, i) => {
-  const row = document.createElement('div');
-  row.className = 'ts-row' + (i === 0 ? ' ts-active' : '');
-  row.innerHTML = `<span class="ts-num">0${i+1}</span><div class="ts-info"><div class="ts-title">${t.title}</div><div class="ts-genre">${t.genre}</div></div><div class="ts-dot"></div>`;
-  row.onclick = () => selectTrack(i);
-  sel.appendChild(row);
+/* tabs */
+const tabsEl = document.getElementById('trackTabs');
+TRACKS.forEach((t,i) => {
+  const b = document.createElement('button');
+  b.className = 'tt' + (i===0?' tt-active':'');
+  b.textContent = `0${i+1}  ${t.title}`;
+  b.onclick = () => selectTrack(i);
+  tabsEl.appendChild(b);
 });
 
 function selectTrack(i) {
-  document.querySelectorAll('.ts-row').forEach((r,j) => r.classList.toggle('ts-active', j===i));
-  currentTrack = i;
+  document.querySelectorAll('.tt').forEach((b,j) => b.classList.toggle('tt-active', j===i));
+  activeTi = i;
   const t = TRACKS[i];
-  document.getElementById('pcTitle').textContent = t.title;
-  document.getElementById('pcSub').textContent = t.genre + ' · Mix by Eliáš Kajan';
+  document.getElementById('ptTitle').textContent = t.title;
+  document.getElementById('ptSub').textContent = t.genre + ' · Mix by Eliáš Kajan';
   resetPlayer();
-  // Ak existujú reálne súbory, načítaj ich:
-  if (t.before !== '' && t.after !== '') {
-    fetchAndLoad('before', t.before);
-    fetchAndLoad('after',  t.after);
-  }
+  tryFetch('before', t.before);
+  tryFetch('after',  t.after);
 }
 
-async function fetchAndLoad(which, url) {
+async function tryFetch(which, url) {
   try {
-    const res = await fetch(url);
-    if (!res.ok) return;
-    const ab = await res.arrayBuffer();
-    if (!ctx) ctx = new AudioContext();
-    const buf = await ctx.decodeAudioData(ab);
-    ap[which].buffer = buf;
-    if (!ap.duration || buf.duration > ap.duration) ap.duration = buf.duration;
+    const r = await fetch(url);
+    if (!r.ok) return;
+    const ab = await r.arrayBuffer();
+    if (!ctx) ctx = new (window.AudioContext||window.webkitAudioContext)();
+    ap[which].buffer = await ctx.decodeAudioData(ab);
+    if (!ap.dur || ap[which].buffer.duration > ap.dur) ap.dur = ap[which].buffer.duration;
     drawWF(ap.cf);
-  } catch(e) { /* súbor neexistuje ešte */ }
+  } catch(e){}
 }
 
-/* ── AUDIO ENGINE ───────────────────────────────────────────────────── */
-const AudioCtx = window.AudioContext || window.webkitAudioContext;
-let ctx = null;
+/* ── DAW BARS ─────────────────────────────────────────────────────── */
+const dawEl = document.getElementById('dawCol');
+[0.3,0.7,1,0.5,0.85,0.4,0.9,0.6,0.75,0.45,0.95,0.55].forEach((s,i)=>{
+  const b = document.createElement('div');
+  b.className='daw-bar';
+  b.style.cssText=`--s:${s.toFixed(2)};--o:${(0.4+s*0.6).toFixed(2)};animation-delay:${(i*0.15).toFixed(2)}s;animation-duration:${(1.4+s*0.8).toFixed(2)}s`;
+  dawEl.appendChild(b);
+});
 
+/* ── AUDIO ENGINE ────────────────────────────────────────────────── */
+let ctx = null;
 const ap = {
-  before: { buffer: null, source: null, gain: null },
-  after:  { buffer: null, source: null, gain: null },
-  playing: false,
-  startTime: 0,
-  pauseOffset: 0,
-  duration: 0,
-  cf: 50,
-  raf: null
+  before:{ buffer:null, source:null, gain:null },
+  after: { buffer:null, source:null, gain:null },
+  playing:false, startTime:0, pauseOffset:0, dur:0, cf:50, raf:null
 };
 
-async function loadFile(which, input) {
-  if (!input.files[0]) return;
-  if (!ctx) ctx = new AudioCtx();
-  const file = input.files[0];
-  const name = file.name.replace(/\.[^/.]+$/,'').slice(0,26);
-  document.getElementById(which === 'before' ? 'nameB' : 'nameA').textContent = name;
-  const ab = await file.arrayBuffer();
-  const buf = await ctx.decodeAudioData(ab);
-  ap[which].buffer = buf;
-  if (!ap.duration || buf.duration > ap.duration) ap.duration = buf.duration;
-  drawWF(ap.cf);
-}
-
 function startSources() {
-  if (!ctx) ctx = new AudioCtx();
+  if (!ctx) ctx = new (window.AudioContext||window.webkitAudioContext)();
   ['before','after'].forEach(w => {
     if (!ap[w].buffer) return;
-    const src  = ctx.createBufferSource();
-    const gain = ctx.createGain();
+    const src = ctx.createBufferSource(), gain = ctx.createGain();
     src.buffer = ap[w].buffer;
     src.connect(gain); gain.connect(ctx.destination);
-    ap[w].source = src; ap[w].gain = gain;
+    ap[w].source=src; ap[w].gain=gain;
     src.start(0, ap.pauseOffset);
   });
-  ap.startTime = ctx.currentTime;
-  ap.playing = true;
+  ap.startTime = ctx.currentTime; ap.playing = true;
   applyCF(ap.cf);
   ap.raf = requestAnimationFrame(tick);
   document.getElementById('playBtn').textContent = '⏸';
@@ -885,137 +801,140 @@ function startSources() {
 function stopSources() {
   cancelAnimationFrame(ap.raf);
   ['before','after'].forEach(w => {
-    try { ap[w].source && ap[w].source.stop(); } catch(e){}
-    ap[w].source = null; ap[w].gain = null;
+    try { ap[w].source&&ap[w].source.stop(); } catch(e){}
+    ap[w].source=null; ap[w].gain=null;
   });
-  ap.playing = false;
+  ap.playing=false;
   document.getElementById('playBtn').textContent = '▶';
 }
 
 function togglePlay() {
-  if (!ap.before.buffer && !ap.after.buffer) { alert('Najskôr nahraj aspoň jeden audio súbor.'); return; }
-  if (!ctx) ctx = new AudioCtx();
-  if (ctx.state === 'suspended') ctx.resume();
+  if (!ap.before.buffer && !ap.after.buffer) return;
+  if (!ctx) ctx = new (window.AudioContext||window.webkitAudioContext)();
+  if (ctx.state==='suspended') ctx.resume();
   if (ap.playing) { ap.pauseOffset += ctx.currentTime - ap.startTime; stopSources(); }
   else startSources();
 }
 
-function restartAudio() {
-  stopSources(); ap.pauseOffset = 0;
-  document.getElementById('wfProgress').style.left = '0%';
-  document.getElementById('wfTime').textContent = '0:00 / ' + fmt(ap.duration);
-}
+function restartAudio() { stopSources(); ap.pauseOffset=0; document.getElementById('wfPlayhead').style.left='0%'; document.getElementById('wfTime').textContent='0:00 / '+fmt(ap.dur); }
+function skipTo(t)  { const was=ap.playing; if(was)stopSources(); ap.pauseOffset=t; if(was)startSources(); }
 
 function resetPlayer() {
   stopSources();
-  ap.before.buffer = null; ap.after.buffer = null;
-  ap.duration = 0; ap.pauseOffset = 0;
-  document.getElementById('nameB').textContent = 'Nahraj audio súbor';
-  document.getElementById('nameA').textContent = 'Nahraj audio súbor';
-  document.getElementById('wfProgress').style.left = '0%';
-  document.getElementById('wfTime').textContent = '0:00 / 0:00';
+  ap.before.buffer=null; ap.after.buffer=null; ap.dur=0; ap.pauseOffset=0;
+  document.getElementById('wfPlayhead').style.left='0%';
+  document.getElementById('wfTime').textContent='0:00 / 0:00';
   drawWF(ap.cf);
 }
 
 function tick() {
   if (!ap.playing) return;
-  const elapsed = ctx.currentTime - ap.startTime + ap.pauseOffset;
-  const clamped = Math.min(elapsed, ap.duration || 1);
-  const pct = ap.duration ? (clamped / ap.duration * 100) : 0;
-  document.getElementById('wfProgress').style.left = pct + '%';
-  document.getElementById('wfTime').textContent = fmt(clamped) + ' / ' + fmt(ap.duration);
-  if (elapsed >= ap.duration && ap.duration > 0) { stopSources(); ap.pauseOffset = 0; document.getElementById('wfProgress').style.left = '0%'; return; }
+  const el = ctx.currentTime - ap.startTime + ap.pauseOffset;
+  const cl = Math.min(el, ap.dur||1);
+  const pct = ap.dur ? cl/ap.dur*100 : 0;
+  document.getElementById('wfPlayhead').style.left = pct+'%';
+  document.getElementById('wfTime').textContent = fmt(cl)+' / '+fmt(ap.dur);
+  if (el >= ap.dur && ap.dur>0) { stopSources(); ap.pauseOffset=0; document.getElementById('wfPlayhead').style.left='0%'; return; }
   ap.raf = requestAnimationFrame(tick);
 }
 
-function fmt(s) {
-  const m = Math.floor(s/60), sec = Math.floor(s%60);
-  return m + ':' + String(sec).padStart(2,'0');
+function fmt(s) { const m=Math.floor(s/60),sec=Math.floor(s%60); return m+':'+String(sec).padStart(2,'0'); }
+
+/* waveform click seek */
+document.getElementById('wfWrap').addEventListener('click', e => {
+  if (!ap.dur) return;
+  const r=e.currentTarget.getBoundingClientRect(), p=(e.clientX-r.left)/r.width;
+  const was=ap.playing; if(was)stopSources(); ap.pauseOffset=Math.max(0,Math.min(p*ap.dur,ap.dur)); if(was)startSources();
+});
+
+/* ── WAVEFORM ────────────────────────────────────────────────────── */
+/* Color: single hue that transitions cyan(0°→188°) → purple(0→270°) based on CF */
+function cfColor(cfVal, alpha) {
+  const t = cfVal/100;
+  const h = 188 + t*(270-188);       // hue: 188=cyan, 270=purple
+  const s = 70 + t*10;               // saturation
+  const l = 55 + t*10;               // lightness
+  return `hsla(${h.toFixed(0)},${s.toFixed(0)}%,${l.toFixed(0)}%,${alpha})`;
 }
 
-/* ── WAVEFORM ───────────────────────────────────────────────────────── */
 function drawWF(cfVal) {
   const canvas = document.getElementById('wfCanvas');
   const W = canvas.width  = canvas.offsetWidth  * devicePixelRatio;
   const H = canvas.height = canvas.offsetHeight * devicePixelRatio;
   const dc = canvas.getContext('2d');
   dc.clearRect(0,0,W,H);
-  const bars = Math.floor(W / (3.5 * devicePixelRatio));
-  const bw = W / bars, mid = H / 2, maxH = H * 0.44;
+
+  const bars = Math.floor(W/(3.2*devicePixelRatio));
+  const bw = W/bars, mid = H/2, maxH = H*0.44;
+  const t = cfVal/100;
 
   function amp(buf, i) {
-    if (!buf) return 0.08 + Math.abs(Math.sin(i * 0.35 + i * 0.02)) * 0.18;
-    const ch = buf.getChannelData(0);
-    const s0 = Math.floor(i/bars*ch.length), s1 = Math.floor((i+1)/bars*ch.length);
-    let mx = 0;
-    for (let s=s0; s<s1; s++) mx = Math.max(mx, Math.abs(ch[s]));
+    if (!buf) return 0.06 + Math.abs(Math.sin(i*0.38+i*0.018))*0.16;
+    const ch=buf.getChannelData(0);
+    const s0=Math.floor(i/bars*ch.length), s1=Math.floor((i+1)/bars*ch.length);
+    let mx=0;
+    for(let s=s0;s<s1;s++) mx=Math.max(mx,Math.abs(ch[s]));
     return mx;
   }
 
-  const t = cfVal / 100;
+  const colTop    = cfColor(cfVal, 0.9);
+  const colMid    = cfColor(cfVal, 0.5);
+  const colBottom = cfColor(cfVal, 0.9);
+
   for (let i=0; i<bars; i++) {
-    const aB = amp(ap.before.buffer, i), aA = amp(ap.after.buffer, i);
+    const aB = amp(ap.before.buffer, i);
+    const aA = amp(ap.after.buffer, i);
     const a  = aB*(1-t) + aA*t;
-    const h  = a * maxH * 2;
-    const x  = i*bw + bw*0.15, w = bw*0.7;
-    const g  = dc.createLinearGradient(0, mid-h/2, 0, mid+h/2);
-    g.addColorStop(0,   `rgba(176,110,243,${0.15 + t*0.6})`);
-    g.addColorStop(0.5, `rgba(240,96,144,${0.3})`);
-    g.addColorStop(1,   `rgba(34,211,238,${0.15 + (1-t)*0.6})`);
+    const h  = a*maxH*2;
+    const x  = i*bw+bw*0.18, w = bw*0.64;
+
+    const g = dc.createLinearGradient(0, mid-h/2, 0, mid+h/2);
+    g.addColorStop(0,   colTop);
+    g.addColorStop(0.5, colMid);
+    g.addColorStop(1,   colBottom);
+
     dc.fillStyle = g;
     dc.beginPath();
-    if (dc.roundRect) dc.roundRect(x, mid-h/2, w, h, 1.5);
+    if (dc.roundRect) dc.roundRect(x, mid-h/2, w, h, 1);
     else dc.rect(x, mid-h/2, w, h);
     dc.fill();
   }
 }
 
-const ro = new ResizeObserver(() => drawWF(ap.cf));
+const ro = new ResizeObserver(()=>drawWF(ap.cf));
 ro.observe(document.getElementById('wfWrap'));
 
-document.getElementById('wfWrap').addEventListener('click', e => {
-  if (!ap.duration) return;
-  const r = e.currentTarget.getBoundingClientRect();
-  const pct = (e.clientX - r.left) / r.width;
-  const wasPlaying = ap.playing;
-  if (wasPlaying) stopSources();
-  ap.pauseOffset = Math.max(0, Math.min(pct * ap.duration, ap.duration));
-  if (wasPlaying) startSources();
-});
-
-/* ── CROSSFADER ─────────────────────────────────────────────────────── */
+/* ── CROSSFADER ──────────────────────────────────────────────────── */
 function applyCF(val) {
   ap.cf = val;
-  const t = val / 100;
-  const gB = Math.cos(t * Math.PI / 2);
-  const gA = Math.cos((1-t) * Math.PI / 2);
+  const t = val/100;
+  const gB = Math.cos(t*Math.PI/2);
+  const gA = Math.cos((1-t)*Math.PI/2);
 
   if (ap.before.gain) ap.before.gain.gain.setTargetAtTime(gB, ctx.currentTime, 0.01);
   if (ap.after.gain)  ap.after.gain.gain.setTargetAtTime(gA, ctx.currentTime, 0.01);
 
-  const thumb = document.getElementById('cfThumb');
-  const fill  = document.getElementById('cfFill');
-  const mid   = document.getElementById('cfMid');
-  const badge = document.getElementById('pcBadge');
+  document.getElementById('cfThumb').style.left = val+'%';
+  document.getElementById('cfVal').textContent  = Math.round(100-val)+' / '+Math.round(val);
 
-  thumb.style.left = val + '%';
+  /* thumb border color matches waveform */
+  document.getElementById('cfThumb').style.borderColor = cfColor(val, 0.8);
 
-  if (val <= 50) {
-    fill.style.left = val + '%'; fill.style.right = '50%';
-    fill.style.background = `rgba(34,211,238,${0.45*(1-val/50)})`;
-  } else {
-    fill.style.left = '50%'; fill.style.right = (100-val) + '%';
-    fill.style.background = `rgba(176,110,243,${0.45*((val-50)/50)})`;
+  /* state badge */
+  const badge = document.getElementById('ptState');
+  if (val < 12) { badge.textContent='RAW'; badge.className='pt-state state-b'; }
+  else if (val > 88) { badge.textContent='MIX'; badge.className='pt-state state-a'; }
+  else {
+    const pct = Math.round(val);
+    badge.textContent = pct+'%';
+    badge.className='pt-state state-b';
+    badge.style.color = cfColor(val, 1);
+    badge.style.borderColor = cfColor(val, 0.3);
+    badge.style.background  = cfColor(val, 0.05);
   }
 
-  mid.textContent = Math.round(100-val) + ' / ' + Math.round(val);
-
-  document.getElementById('vuB').style.width = (gB*100).toFixed(1) + '%';
-  document.getElementById('vuA').style.width = (gA*100).toFixed(1) + '%';
-
-  if (val < 15) { badge.textContent='Before'; badge.className='pc-badge badge-b'; }
-  else if (val > 85) { badge.textContent='After'; badge.className='pc-badge badge-a'; }
-  else { badge.textContent='Mix ' + Math.round(val) + '%'; badge.className='pc-badge badge-b'; badge.style.color=`hsl(${260+val*0.7}deg,70%,72%)`; badge.style.borderColor=`hsla(${260+val*0.7}deg,70%,60%,0.35)`; }
+  document.getElementById('vuB').style.width = (gB*100).toFixed(1)+'%';
+  document.getElementById('vuA').style.width = (gA*100).toFixed(1)+'%';
 
   drawWF(val);
 }
@@ -1023,20 +942,19 @@ function applyCF(val) {
 document.getElementById('cfSlider').addEventListener('input', e => applyCF(+e.target.value));
 applyCF(50);
 
-/* ── CONTACT FORM ───────────────────────────────────────────────────── */
+/* ── FORM ────────────────────────────────────────────────────────── */
 function sendForm(e) {
   e.preventDefault();
-  const btn = document.getElementById('sendBtn');
-  btn.textContent = 'Odoslané ✓';
-  btn.style.background = 'linear-gradient(135deg,#10b981,#059669)';
-  setTimeout(() => { btn.textContent='Odoslať správu →'; btn.style.background=''; e.target.reset(); }, 3000);
+  const btn=document.getElementById('sendBtn');
+  btn.textContent='Odoslané ✓'; btn.style.background='linear-gradient(135deg,#10b981,#059669)';
+  setTimeout(()=>{ btn.textContent='Odoslať →'; btn.style.background=''; e.target.reset(); },3000);
 }
 
-/* ── SCROLL REVEAL ──────────────────────────────────────────────────── */
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(en => { if (en.isIntersecting) en.target.classList.add('visible'); });
-}, { threshold: 0.12 });
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+/* ── REVEAL ──────────────────────────────────────────────────────── */
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(en=>{ if(en.isIntersecting) en.target.classList.add('visible'); });
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 </script>
 </body>
 </html>
